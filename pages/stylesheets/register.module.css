@@ -1,0 +1,48 @@
+.page{
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.title{
+    font-size: 3rem;
+    margin-top: 3%;
+    white-space: nowrap;
+}
+
+.register_form{
+    padding-top: 5%;
+}
+
+.register_field{
+    margin-top: 5%;
+}
+
+.register_error{
+    color: red;
+    padding-top: 1%;
+}
+
+
+@media screen and (max-width:1000px){
+
+    .register_field{
+        margin-top: 10%;
+    }
+} 
+
+
+
+@media screen and (max-width:600px){
+
+    .register_field{
+        margin-top: 15%;
+    }
+}
+
+
+@media screen and (max-width:400px){
+    .register_field{
+        margin-top: 30%;
+    }
+}
