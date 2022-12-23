@@ -1,41 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Cookie from 'js-cookie';
 
 export const registerUser=createAsyncThunk(
-    'authorization/registerProfile',
+    'authorization/registerUser',
     async(thunkAPI)=>{
          const {email,password}=thunkAPI;
-         const response = await axios.post('api/registerUser',{email:email,password:password});
+         const response = await axios.post('api/registerUser',{email:email,password:password})
+         .catch((err)=>{
+            throw err.response.data;
+        })
          return response.data;
       }
 );
 
+export const loginUser = createAsyncThunk(
+    'authorization/loginUser',
+    async(thunkAPI)=>{
+        const {email,password}= thunkAPI;
+        const response = await axios.post('api/loginUser',{email:email,password:password})
+        .catch(((err)=>{
+            throw err.response.data;
+        }))
+        return response.data;
+    }
+)
 
-const initialState = {
-    Id:'',
-}
+const initialState = {}
 
 export const authSlice = createSlice({
     name: 'authorization',
     initialState,
-    reducers: {
-        setId:(state,action)=>{
-            state.Id= action.payload
-        },
-    }, 
-    extraReducers:(builder)=>{
-        builder
-        .addCase(registerUser.fulfilled,(state,action)=>{
-            state.Id = action.payload._id
-        })
-
-        .addCase(registerUser.rejected,(state,action)=>{
-          state.Id = null 
-        })
-    }
+    reducers: {}, 
 })
 
-export const {setId} = authSlice.actions;
+export const {setShowNotification} = authSlice.actions;
 
 export default authSlice.reducer;

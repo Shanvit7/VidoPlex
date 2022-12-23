@@ -1,8 +1,7 @@
-import {useState} from 'react';
 import { registerUser } from '../redux/slices/authSlice';
 import {useDispatch} from 'react-redux';
 import styles from './stylesheets/register.module.css';
-import { Center,Input,Button } from '@chakra-ui/react';
+import { Center,Input,Button,useToast} from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
 import {useRouter} from 'next/router';
 
@@ -13,16 +12,53 @@ const Register=()=>{
     const dispatch = useDispatch();
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [passwordError,setPasswordError] = useState(false);
+    const toast = useToast();
 
   const onSubmit=data=>{
     const {email,password,confirmPassword}=data;
     if (password !== confirmPassword){
-     setPasswordError(true)
+      toast({
+        title: 'Passwords do not match',
+        position:'top-right',
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      })
     }else{
-     setPasswordError(false)
-     dispatch(registerUser({email:email,password:password}));
-     router.push('/login');
+     dispatch(registerUser({email:email,password:password}))
+     .unwrap()
+     .then((data)=>{
+      if(data.result==='success'){
+        toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          position:'top-right',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        })
+        router.push('/login');
+      } else {
+        toast({
+          title: 'Registration failed',
+          description: "Try again later...",
+          position:'top-right',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        })
+      }
+     })
+     .catch((err) => {
+      toast({
+        title: 'Registration failed',
+        description:err.message,
+        position:'top-right',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+    })
     }
   }
 
@@ -72,7 +108,6 @@ const Register=()=>{
               />
             </Center>
             <Center>
-            {passwordError ? <p className={styles.register_error}>Passwords do not match !</p>:''}
             </Center>
 
   
