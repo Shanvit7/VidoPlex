@@ -59,7 +59,7 @@ const Slider=({videos,contentTitle})=>{
                  url={video.mp4.url}
                  playing={false}
                  light={video.thumbnail.url}
-                 key={key}
+                 key={''}
                  height={'100%'}
                  width={'100%'}
               />

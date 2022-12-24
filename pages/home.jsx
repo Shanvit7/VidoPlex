@@ -21,17 +21,16 @@ const Home=({videos})=>{
 
            <Slider videos={videos} contentTitle={'New Release'} />
 
-
         </div>
     )
 }
 
 export const getStaticProps = async ()=>{
 
-    const url = process.env.ENDPOINT;
+    const url = process.env.NEXT_PUBLIC_ENDPOINT;
     const graphQLClient = new GraphQLClient(url,
       {headers:{
-        "Authorization":process.env.GRAPH_CMS_TOKEN
+        "Authorization":process.env.NEXT_PUBLIC_GRAPH_CMS_TOKEN
       }}
     )
 const getAllvideos = gql`

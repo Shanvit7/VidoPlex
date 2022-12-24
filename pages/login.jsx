@@ -4,6 +4,7 @@ import styles from './stylesheets/register.module.css';
 import { Center,Input,Button,useToast } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookies';
 
 
 const Login=()=>{
@@ -18,7 +19,7 @@ const Login=()=>{
      .unwrap()
      .then((data)=>{
       if(data?.result==='success'){
-         localStorage.setItem("Id",data?.email);
+          Cookies.setItem('access-token',data?.token);
         toast({
           title: 'Sign In Successful',
           position:'custom',
@@ -26,7 +27,7 @@ const Login=()=>{
           duration: 2000,
           isClosable: true,
         })
-        router.push('/home');
+        router.push('/profile');
       } else {
         toast({
           title: 'Something went wrong',

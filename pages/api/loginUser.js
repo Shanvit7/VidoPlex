@@ -1,6 +1,10 @@
 import { connectToDatabase } from "../../lib/mongodb";
-import { withIronSessionApiRoute } from "iron-session/next";
-import {ironOptions} from '../../lib/ironConfig';
+import { SignJWT } from "jose";
+
+const KEY = new TextEncoder().encode(
+    process.env.NEXT_PUBLIC_JWT_SECRET
+)
+const alg = 'HS256';
 
 const handler=async(req, res)=>{
     try{
@@ -9,10 +13,15 @@ const handler=async(req, res)=>{
      const collection = database.collection('users');
      const response = await collection.findOne({email:email,password:password});
      if(response){
-         const sessionUser = {email:email,isLoggedIn:true};
-         req.session.user = sessionUser;
-         await req.session.save();
-         return res.status(200).json({result:'success',message:'User logged successsfully',email:email});
+         return res.status(200).json({
+            result:'success',
+            message:'User logged successsfully',
+            token: await new SignJWT({
+                email
+            })
+            .setProtectedHeader({alg})
+            .sign(KEY)
+        });
      } 
      return res.status(401).json({result:'failed',message:'Invalid Credentials'});
     }
@@ -21,5 +30,5 @@ const handler=async(req, res)=>{
     }
 }
 
-export default withIronSessionApiRoute(handler,ironOptions);
+export default handler;
   
