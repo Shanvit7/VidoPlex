@@ -12,7 +12,7 @@ const handler=async(req, res)=>{
          const sessionUser = {email:email,isLoggedIn:true};
          req.session.user = sessionUser;
          await req.session.save();
-         return res.status(200).json({result:'success',message:'User logged successsfully'});
+         return res.status(200).json({result:'success',message:'User logged successsfully',email:email});
      } 
      return res.status(401).json({result:'failed',message:'Invalid Credentials'});
     }

@@ -19,7 +19,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
          size={'lg'}
        >
          <DrawerOverlay/>
-        <DrawerContent  style={{backgroundColor:"#1a151e"}}>
+        <DrawerContent  style={{backgroundColor:"#10051a"}}>
         <DrawerCloseButton />
             <DrawerHeader>
                 <Center>

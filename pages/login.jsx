@@ -18,6 +18,7 @@ const Login=()=>{
      .unwrap()
      .then((data)=>{
       if(data?.result==='success'){
+         localStorage.setItem("Id",data?.email);
         toast({
           title: 'Sign In Successful',
           position:'custom',

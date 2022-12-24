@@ -2,6 +2,7 @@ import { Grid, GridItem,Flex,Icon,Text,Avatar,Button } from '@chakra-ui/react';
 import {GiHamburgerMenu} from 'react-icons/gi';
 
 const TopNavbar=({passRef,openSideBar})=>{
+    
     return(
         <Grid>
             <Flex justifyContent={'space-between'}>
@@ -24,7 +25,7 @@ const TopNavbar=({passRef,openSideBar})=>{
 
              <GridItem>
                 <Avatar
-                name='Nikola Jokic'
+                name={'Nikola Jokic'}
                 m='2'
                 />
              </GridItem>
