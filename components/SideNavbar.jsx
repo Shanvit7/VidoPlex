@@ -6,7 +6,9 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
+    Text,
     Center,
+    Button,
 } from '@chakra-ui/react';
 
 const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
@@ -23,11 +25,75 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
         <DrawerCloseButton />
             <DrawerHeader>
                 <Center>
-                    VidoPlex
+                    <Text fontSize={'4xl'}>
+                      VidoPlex
+                    </Text>
                 </Center>
             </DrawerHeader>
 
-            <DrawerBody>
+            <DrawerBody >
+
+              <Center  marginTop='8%'>
+              <Button
+               bg={'transparent'}
+              >
+              <Text fontSize={'2xl'}>
+                  Home
+                </Text>
+              </Button>
+              </Center>
+
+              <Center  marginTop='8%'>
+              <Button
+               bg={'transparent'}
+              >
+              <Text fontSize={'2xl'}>
+                  Watchlist
+                </Text>
+              </Button>
+              </Center>
+
+              <Center  marginTop='8%'>
+              <Button
+               bg={'transparent'}
+              >
+              <Text fontSize={'2xl'}>
+                  Liked Titles
+                </Text>
+              </Button>
+              </Center>
+
+              <Center  marginTop='8%'>
+              <Button
+               bg={'transparent'}
+              >
+              <Text fontSize={'2xl'}>
+                  My account
+                </Text>
+              </Button>
+              </Center>
+
+              <Center marginTop='8%'>
+              <Button
+               bg={'transparent'}
+              >
+              <Text fontSize={'2xl'}>
+                  Settings
+                </Text>
+              </Button>
+              </Center>
+
+              <Center  marginTop='8%'>
+              <Button
+               bg={'transparent'}
+              >
+              <Text fontSize={'2xl'}>
+                  Logout
+                </Text>
+              </Button>
+              </Center>
+          
+         
 
             </DrawerBody>
 

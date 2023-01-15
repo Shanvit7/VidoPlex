@@ -1,36 +1,33 @@
-import { Grid, GridItem,Flex,Icon,Text,Avatar,Button } from '@chakra-ui/react';
+import { Grid, GridItem,Icon,Text,Button } from '@chakra-ui/react';
 import {GiHamburgerMenu} from 'react-icons/gi';
 
 const TopNavbar=({passRef,openSideBar})=>{
     
     return(
         <Grid>
-            <Flex justifyContent={'space-between'}>
 
-             <GridItem>
-                <Button
-                 ref={passRef}
-                 onClick={()=>openSideBar()}
-                 backgroundColor={'transparent'}
-                >
-                 <Icon as={GiHamburgerMenu} boxSize={10} />
-                </Button>
-             </GridItem>
+        <GridItem>       
+         <Button
+            ref={passRef}
+            onClick={()=>openSideBar()}
+            backgroundColor={'transparent'}
+          >
+         <Icon 
+           as={GiHamburgerMenu} 
+           boxSize={7} 
+          />
+        </Button> 
+        </GridItem>
 
-             <GridItem>
-                  <Text fontSize='4xl'>
-                     VidoPlex
-                  </Text>
-             </GridItem>
+        <GridItem>
+        <Text 
+        textAlign={'center'}
+           fontSize={['3xl',null,'3xl','4xl','5xl']}
+           >
+             VidoPlex
+           </Text>
+        </GridItem>
 
-             <GridItem>
-                <Avatar
-                name={'Nikola Jokic'}
-                m='2'
-                />
-             </GridItem>
-
-            </Flex>
         </Grid>
     )
 }

@@ -1,6 +1,6 @@
 import { loginUser } from '../redux/slices/authSlice';
 import {useDispatch} from 'react-redux';
-import styles from './stylesheets/register.module.css';
+import styles from './stylesheets/layout.module.css';
 import { Center,Input,Button,useToast } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
@@ -27,7 +27,7 @@ const Login=()=>{
           duration: 2000,
           isClosable: true,
         })
-        router.push('/profile');
+        router.push('/home');
       } else {
         toast({
           title: 'Something went wrong',

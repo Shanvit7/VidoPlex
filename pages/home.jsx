@@ -1,4 +1,4 @@
-import styles from './stylesheets/home.module.css';
+import styles from './stylesheets/layout.module.css';
 import TopNavbar from '../components/TopNavbar';
 import SideNavbar from '../components/SideNavbar';
 import {useRef} from 'react';
@@ -6,7 +6,7 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 import {GraphQLClient,gql} from 'graphql-request';
-import Slider from '../components/Slider';
+import VideoDrawer from '../components/VideoDrawer';
 
 
 const Home=({videos})=>{
@@ -18,9 +18,7 @@ const Home=({videos})=>{
         <div className={styles.page}>
            <TopNavbar  passRef={btnRef}  openSideBar={onOpen}/>
            <SideNavbar passRef={btnRef} isOpenSidebar={isOpen} closeSidebar={onClose}/>
-
-           <Slider videos={videos} contentTitle={'New Release'} />
-
+           <VideoDrawer videos={videos} contentTitle={'New Release'} />
         </div>
     )
 }

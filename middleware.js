@@ -7,20 +7,11 @@ const KEY = new TextEncoder().encode(
 
 
 export const middleware = async (req) => {
-    const res = NextResponse.next();
+    const response = NextResponse.next();
     const token = req.cookies.get('access-token');
-    const path = req.nextUrl.pathname;
     try{
-      const {payload,protectedHeader} = await jwtVerify(token.value,KEY);
-      const profile = req.cookies.get('profile');
-      if(!profile)
-      {
-        return NextResponse.rewrite('http://localhost:3000/profile');
-      } 
-      else 
-      {
-        return res
-      }
+      await jwtVerify(token.value,KEY);
+      return response;
     }
     catch(e){
        return NextResponse.redirect('http://localhost:3000/login');
@@ -28,6 +19,6 @@ export const middleware = async (req) => {
 };
   
 export const config = {
-    matcher:["/home",'/profile']
+    matcher:["/home",'/stream']
 };
 
