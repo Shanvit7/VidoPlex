@@ -33,6 +33,6 @@ export const authSlice = createSlice({
     reducers: {}, 
 })
 
-export const {setShowNotification} = authSlice.actions;
+export const {} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,14 +1,19 @@
-import styles from './stylesheets/layout.module.css';
+import styles from '../stylesheets/layout.module.css';
 import dynamic from 'next/dynamic';
 import { Flex,Box,Button, Icon,Text } from '@chakra-ui/react';
-import {FaPlay,FaThumbsUp,FaTv}  from 'react-icons/fa';
-import {GrAdd} from 'react-icons/gr';
+import {FaThumbsDown,FaThumbsUp,FaTv}  from 'react-icons/fa';
+import { useRouter } from 'next/router';
+import { useGetVideoQuery } from '../../redux/services/videoService';
+
 const ReactPlayer = dynamic(
     () => import('react-player'),
     { ssr: false }
 );
 
 const Stream=()=>{
+    const router = useRouter();
+    const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
+
     return(
         <div className={styles.page}>
             <Flex flexDirection={['column-reverse','row']}>
@@ -16,24 +21,25 @@ const Stream=()=>{
                     <Box
                      h='100vh'
                      w={['100vw','50vw']}
-                     
                     >
                          <Text
                           fontSize={'5xl'}
                           textAlign='center'
                           m='4%'
                         >
-                          Title of Video
+                          {
+                            data?.title
+                          }
                         </Text>
                         <Flex m='10%' justifyContent={'space-around'}>
                             <Button>
                                 <Icon
-                                as={FaPlay}
+                                as={FaThumbsUp}
                             />
                             </Button>
                               <Button>
                                 <Icon
-                                 as={FaThumbsUp}
+                                 as={FaThumbsDown}
                             />
                             </Button>
                               <Button>
@@ -52,8 +58,9 @@ const Stream=()=>{
                         </Flex>
                         <Flex m='5%'>
                            <Text>
-                                This is a sample trivia about some published video, VidoPlex is a ongoing video streaming FaaS based platform.
-                                Wabba lub dub.Lorem Ipsum Dim uno dos trea cuatro cinco sies siete ocho nueve dias
+                               {
+                                data?.description
+                               }
                             </Text>
                         </Flex>
                     </Box>
@@ -63,9 +70,10 @@ const Stream=()=>{
                     w={['100vw','50vw']}
                     >
                     <ReactPlayer
-                         url={'https://www.youtube.com/watch?v=ysz5S6PUM-U'}
-                         playing={false}
-                         key={''}
+                         url={data?.mp4?.url}
+                         playing={true}
+                         controls={true}
+                         light={data?.thumbnail.url}
                          height={'100%'}
                          width={'100%'}
                     />

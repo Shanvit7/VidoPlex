@@ -1,13 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import accountReducer from './slices/accountSlice';
-
+import { videoApi } from './services/videoService';
 
 export const store = configureStore({
     reducer: {
       authorization: authReducer,
       account: accountReducer,
+      [videoApi.reducerPath]:videoApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({thunk:true}),
+    getDefaultMiddleware({thunk:true})
+    .prepend(videoApi.middleware),
 })

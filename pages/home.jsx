@@ -13,7 +13,6 @@ const Home=({videos})=>{
     const { isOpen,onClose,onOpen } = useDisclosure();
     const btnRef = useRef();
 
-
     return(
         <div className={styles.page}>
            <TopNavbar  passRef={btnRef}  openSideBar={onOpen}/>
@@ -34,13 +33,9 @@ export const getStaticProps = async ()=>{
 const getAllvideos = gql`
 query{
   videos{
-    createdAt,
-    id,
     title,
+    id,
     description,
-    seen,
-    slug,
-    tags,
     thumbnail{
       url
     },
@@ -51,8 +46,8 @@ query{
 }
 `;
 
-   const data = await graphQLClient.request(getAllvideos);
-   const videos = data.videos;
+  const data = await graphQLClient.request(getAllvideos);
+  const videos = data.videos;
   
   return{
     props:{

@@ -47,11 +47,13 @@ const VideoDrawer=({contentTitle,videos})=>{
            h={[null,'70','60','60','60']}
            >
              <ReactPlayer
-              onClick={()=>router.push('/stream')}
+              onClick={()=>{
+                 router.push(`/stream/${video.id}`)
+              }}
               url={video.mp4.url}
               playing={false}
               light={video.thumbnail.url}
-              key={''}
+              key={video.id}
               height={'100%'}
               width={'100%'}
            />
