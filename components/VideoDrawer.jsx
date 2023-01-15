@@ -50,10 +50,10 @@ const VideoDrawer=({contentTitle,videos})=>{
               onClick={()=>{
                  router.push(`/stream/${video.id}`)
               }}
-              url={video.mp4.url}
+              url={video?.mp4.url}
               playing={false}
-              light={video.thumbnail.url}
-              key={video.id}
+              light={video?.thumbnail.url}
+              key={video?.id}
               height={'100%'}
               width={'100%'}
            />

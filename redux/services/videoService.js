@@ -36,6 +36,9 @@ export const videoApi = createApi({
                       thumbnail{
                         url
                       },
+                      thumbnail2{
+                        url
+                      },
                       mp4{
                         url
                       }

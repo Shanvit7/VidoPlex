@@ -20,18 +20,19 @@ const Login=()=>{
      .then((data)=>{
       if(data?.result==='success'){
           Cookies.setItem('access-token',data?.token);
-        toast({
-          title: 'Sign In Successful',
-          position:'custom',
-          status: 'success',
-          duration: 2000,
-          isClosable: true,
+          toast({
+           title: 'Sign In Successful',
+           position:'top',
+           status: 'success',
+           duration: 2000,
+           isClosable: true,
         })
         router.push('/home');
       } else {
         toast({
           title: 'Something went wrong',
           description:'Please try again later...',
+          position:'top',
           status: 'error',
           duration: 1000,
           isClosable: true,
@@ -42,6 +43,7 @@ const Login=()=>{
       toast({
         title: 'Sign In Failed',
         description:err.message,
+        position:'top',
         status: 'error',
         duration: 1000,
         isClosable: true,

@@ -5,7 +5,7 @@ export const registerUser=createAsyncThunk(
     'authorization/registerUser',
     async(thunkAPI)=>{
          const {email,password}=thunkAPI;
-         const response = await axios.post('api/registerUser',{email:email,password:password})
+         const response = await axios.post('api/register-user',{email:email,password:password})
          .catch((err)=>{
             throw err.response.data;
         })
@@ -17,7 +17,7 @@ export const loginUser = createAsyncThunk(
     'authorization/loginUser',
     async(thunkAPI)=>{
         const {email,password}= thunkAPI;
-        const response = await axios.post('api/loginUser',{email:email,password:password})
+        const response = await axios.post('api/login-user',{email:email,password:password})
         .catch(((err)=>{
             throw err.response.data;
         }))

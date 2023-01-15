@@ -4,15 +4,17 @@ import { Flex,Box,Button, Icon,Text } from '@chakra-ui/react';
 import {FaThumbsDown,FaThumbsUp,FaTv}  from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
+import { Tooltip } from '@chakra-ui/react';
 
 const ReactPlayer = dynamic(
     () => import('react-player'),
     { ssr: false }
 );
 
-const Stream=()=>{
+const StreamVideo=()=>{
     const router = useRouter();
     const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
+    console.log(data);
 
     return(
         <div className={styles.page}>
@@ -32,21 +34,36 @@ const Stream=()=>{
                           }
                         </Text>
                         <Flex m='10%' justifyContent={'space-around'}>
+
+                            <Tooltip
+                            label={'Liked This'}
+                            >
                             <Button>
                                 <Icon
                                 as={FaThumbsUp}
                             />
                             </Button>
-                              <Button>
+                            </Tooltip>
+
+                            <Tooltip
+                            label={'Not for me'}
+                            >
+                            <Button>
                                 <Icon
                                  as={FaThumbsDown}
                             />
                             </Button>
-                              <Button>
+                            </Tooltip>
+
+                            <Tooltip
+                            label={'Add To  Watchlist'}
+                            >
+                            <Button>
                                 <Icon
                                 as={FaTv}
                             />
                             </Button>
+                            </Tooltip>
                         </Flex>
 
                         <Flex m='5%'>
@@ -73,7 +90,7 @@ const Stream=()=>{
                          url={data?.mp4?.url}
                          playing={true}
                          controls={true}
-                         light={data?.thumbnail.url}
+                         light={data?.thumbnail2.url}
                          height={'100%'}
                          width={'100%'}
                     />
@@ -83,4 +100,4 @@ const Stream=()=>{
     )
 }
 
-export default Stream;
+export default StreamVideo;

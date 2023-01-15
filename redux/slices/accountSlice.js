@@ -14,7 +14,7 @@ export const getUser = createAsyncThunk(
         const token = Cookies.getItem('access-token');
         try {
             const {payload} = await jwtVerify(token,KEY);
-            const response = await axios.post('api/getUser',payload)
+            const response = await axios.post('api/get-user',payload)
             .catch((err)=>{
                 throw err.response.data;
             })
