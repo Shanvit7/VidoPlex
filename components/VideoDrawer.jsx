@@ -5,16 +5,12 @@ import {
     Center,
     Text,
     Icon,
+    Card,
+    Image
 } from '@chakra-ui/react';
 import {useState} from 'react';
-import dynamic from 'next/dynamic';
 import { GrDown,GrUp } from 'react-icons/gr';
 import { useRouter } from 'next/router';
-
-const ReactPlayer = dynamic(
-    () => import('react-player'),
-    { ssr: false }
-)
 
 const VideoDrawer=({contentTitle,videos})=>{
   const [lastIndex,setLastIndex]=useState(4);
@@ -46,17 +42,17 @@ const VideoDrawer=({contentTitle,videos})=>{
            w={[null,'25','25','25','30']}
            h={[null,'70','60','60','60']}
            >
-             <ReactPlayer
-              onClick={()=>{
+              <Card
+               cursor={'pointer'}
+              >
+                <Image 
+                 src={video?.thumbnail.url}
+                 alt={'video'}
+                  onClick={()=>{
                  router.push(`/stream/${video.id}`)
               }}
-              url={video?.mp4.url}
-              playing={false}
-              light={video?.thumbnail.url}
-              key={video?.id}
-              height={'100%'}
-              width={'100%'}
-           />
+                />
+              </Card>
            </Box>
        ))
      }

@@ -1,6 +1,6 @@
 import styles from '../stylesheets/layout.module.css';
 import dynamic from 'next/dynamic';
-import { Flex,Box,Button, Icon,Text } from '@chakra-ui/react';
+import { Flex,Box,Button, Icon,Text,Spinner } from '@chakra-ui/react';
 import {FaThumbsDown,FaThumbsUp,FaTv}  from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
@@ -14,10 +14,34 @@ const ReactPlayer = dynamic(
 const StreamVideo=()=>{
     const router = useRouter();
     const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
-    console.log(data);
 
     return(
         <div className={styles.page}>
+            {isLoading
+            ? 
+            <Spinner color='#a742f5' size={'xl'} thickness={'5px'} speed={'0.30s'} />
+            :
+            error
+            ?
+            (<>
+            <Text
+            textAlign={'center'}
+            fontSize={'6xl'}
+            >Something went wrong. Please try again later
+            </Text>
+            <Box
+            m='2%'
+            width={'100vw'}
+            height={'80vh'}
+            display={'flex'}
+            justifyContent={'center'}
+            >
+             <img src='/error.svg' />
+            </Box>
+            </>
+            )
+            :
+            (
             <Flex flexDirection={['column-reverse','row']}>
 
                     <Box
@@ -37,6 +61,7 @@ const StreamVideo=()=>{
 
                             <Tooltip
                             label={'Liked This'}
+                            hasArrow
                             >
                             <Button>
                                 <Icon
@@ -47,6 +72,7 @@ const StreamVideo=()=>{
 
                             <Tooltip
                             label={'Not for me'}
+                            hasArrow
                             >
                             <Button>
                                 <Icon
@@ -57,6 +83,7 @@ const StreamVideo=()=>{
 
                             <Tooltip
                             label={'Add To  Watchlist'}
+                            hasArrow
                             >
                             <Button>
                                 <Icon
@@ -96,7 +123,9 @@ const StreamVideo=()=>{
                     />
                     </Box>
             </Flex>
+        )}
         </div>
+        
     )
 }
 

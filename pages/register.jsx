@@ -1,9 +1,20 @@
 import { registerUser } from '../redux/slices/authSlice';
 import {useDispatch} from 'react-redux';
+import {useState} from 'react';
 import styles from './stylesheets/layout.module.css';
-import { Center,Input,Button,useToast} from '@chakra-ui/react';
+import { 
+    Input,
+    Button,
+    useToast,
+    Flex,
+    Box ,
+    FormLabel,
+    Text,
+    Tooltip,
+} from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
 import {useRouter} from 'next/router';
+import {BsPersonBadge} from 'react-icons/bs';
 
 
 
@@ -13,10 +24,22 @@ const Register=()=>{
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const toast = useToast();
+    const [loading,setLoading]=useState(false);
 
   const onSubmit=data=>{
     const {email,password,confirmPassword}=data;
-    if (password !== confirmPassword){
+    if(password?.length<8){
+      setLoading(false);
+      toast({
+        title: 'Password is less than 8 characters',
+        position:'top-right',
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      })
+    }
+    else if (password !== confirmPassword){
+      setLoading(false);
       toast({
         title: 'Passwords do not match',
         position:'top-right',
@@ -30,7 +53,7 @@ const Register=()=>{
      .then((data)=>{
       if(data.result==='success'){
         toast({
-          title: 'Account created.',
+          title: 'Account Created.',
           description: "We've created your account for you.",
           position:'top-right',
           status: 'success',
@@ -40,7 +63,7 @@ const Register=()=>{
         router.push('/login');
       } else {
         toast({
-          title: 'Registration failed',
+          title: 'Registration Failed',
           description: "Try again later...",
           position:'top-right',
           status: 'error',
@@ -51,7 +74,7 @@ const Register=()=>{
      })
      .catch((err) => {
       toast({
-        title: 'Registration failed',
+        title: 'Registration Failed',
         description:err.message,
         position:'top-right',
         status: 'error',
@@ -65,60 +88,115 @@ const Register=()=>{
 
     return(
       <div className={styles.page}>
-         <Center>
-           <h1 className={styles.title}>
-              Sign Up Now
-           </h1>
-         </Center>
+        <Flex flexDirection={'row'} >
 
-         <form onSubmit={handleSubmit(onSubmit)} className={styles.register_form} >
-           <Center>
-             <Input
-               {...register("email",{required:true})} 
-                 className={styles.register_field}
-                 width='50%'
-                 type='email' 
-                 variant='flushed' 
-                 placeholder='Email'
-                 focusBorderColor="#a742f5"
-              />
-            </Center>
+<Box width={'50vw'} height={'100vh'} display={'flex'} justifyContent={'center'}>
+  <img src='/register.svg' />
+</Box>
 
-            <Center>
-             <Input
-               {...register("password",{required:true})} 
-                 className={styles.register_field}
-                 width='50%'
-                 type='password' 
-                 variant='flushed' 
-                 placeholder='Password'
-                 focusBorderColor="#a742f5"
-              />
-            </Center>
-
-            <Center>
-             <Input
-               {...register("confirmPassword",{required:true})} 
-                 className={styles.register_field}
-                 width='50%'
-                 type='password' 
-                 variant='flushed' 
-                 placeholder='Confirm Password'
-                 focusBorderColor="#a742f5"
-              />
-            </Center>
-            <Center>
-            </Center>
-
-  
+ <Box
+  backgroundColor={'black'}
+  width={'50vw'}
+  display={'flex'}
+  justifyContent={'center'}
+ >
+  <form onSubmit={handleSubmit(onSubmit)}>
+    <Flex
+     flexDirection={'column'}
+     alignItems='center'
+    >
+    <Text
+    textAlign={'center'}
+    color={'#a742f5'}
+    m='4%'
+    fontSize={'7xl'}
+    >
+      Sign Up
+    </Text>
 
 
-            <Center>
-              <Button type='submit' className={styles.register_field}>
-                Create Account
-              </Button>
-            </Center>
-         </form>
+    <Flex
+    flexDirection={'column'}
+    m='2%'
+    >
+    <FormLabel
+    color={'#a742f5'}
+    textAlign='start'
+    >
+      Email
+    </FormLabel>
+    <Input 
+     {...register("email",{required:true})} 
+     type={'email'}
+     width={'40vw'}
+     color={'#a742f5'}
+     focusBorderColor="#a742f5"
+     variant={'flushed'}
+     isRequired
+     />
+     </Flex>
+
+    <Flex
+    flexDirection={'column'}
+    m='8%'
+    >
+    <FormLabel
+    color={'#a742f5'}
+    textAlign='start'
+    >
+      Password
+    </FormLabel>
+    <Input 
+     {...register("password",{required:true})} 
+     type={'password'}
+     width={'40vw'}
+     color={'#a742f5'}
+     focusBorderColor="#a742f5"
+     variant={'flushed'}
+     isRequired
+     />
+     </Flex>
+
+     <Flex
+    flexDirection={'column'}
+    m='8%'
+    >
+    <FormLabel
+    color={'#a742f5'}
+    textAlign='start'
+    >
+     Confirm Password
+    </FormLabel>
+    <Input 
+     {...register("confirmPassword",{required:true})} 
+     type={'password'}
+     width={'40vw'}
+     color={'#a742f5'}
+     focusBorderColor="#a742f5"
+     variant={'flushed'}
+     isRequired
+     />
+     </Flex>
+
+     <Tooltip
+     label={loading ? 'Creating account..': 'Sign Up'}
+     hasArrow
+     bg={"#a742f5"}
+     >
+     <Button
+     size={'lg'}
+     leftIcon={<BsPersonBadge/>}
+     type={'submit'}
+     isLoading={loading}
+     >
+       Create Account
+     </Button>
+     </Tooltip>
+
+      </Flex>
+  </form>
+ </Box>
+</Flex>
       </div>
     )
 }
