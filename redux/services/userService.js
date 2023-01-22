@@ -29,11 +29,19 @@ export const userApi = createApi({
         baseUrl: 'http://localhost:3000/api',
     }),
     endpoints:(builder)=>({
-        addToWatchlist: builder.mutation({
+        addToWatchList: builder.mutation({
             query: (videoId) =>
             ({ url: '/add-to-watchlist', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+        }),
+        myWatchList: builder.query({
+          query: () =>
+          ({ url: '/my-watchlist', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+        }),
+        removeFromWatchList: builder.mutation({
+          query: (videoId) =>
+          ({ url: '/remove-from-watchlist', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
         }),
   }),
 })
 
-export const { useAddToWatchlistMutation } = userApi;
+export const { useAddToWatchListMutation, useMyWatchListQuery,useRemoveFromWatchListMutation } = userApi;

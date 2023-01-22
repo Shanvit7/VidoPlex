@@ -3,7 +3,7 @@ import TopNavbar from '../components/TopNavbar';
 import SideNavbar from '../components/SideNavbar';
 import {useRef} from 'react';
 import {
-    useDisclosure,
+    useDisclosure,Text
 } from '@chakra-ui/react';
 import {GraphQLClient,gql} from 'graphql-request';
 import VideoDrawer from '../components/VideoDrawer';
@@ -16,6 +16,12 @@ const Home=({videos})=>{
     return(
         <div className={styles.page}>
            <TopNavbar  passRef={btnRef}  openSideBar={onOpen}/>
+           <Text 
+             textAlign={'center'}
+             fontSize={['3xl',null,'3xl','4xl','5xl']}
+           >
+             VidoPlex
+           </Text>
            <SideNavbar passRef={btnRef} isOpenSidebar={isOpen} closeSidebar={onClose}/>
            <VideoDrawer videos={videos} contentTitle={'New Release'} />
         </div>

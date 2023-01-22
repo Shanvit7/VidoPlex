@@ -1,11 +1,12 @@
 import styles from '../stylesheets/layout.module.css';
 import dynamic from 'next/dynamic';
 import { Flex,Box,Button, Icon,Text,Spinner,useToast, } from '@chakra-ui/react';
-import {FaThumbsDown,FaThumbsUp,FaTv}  from 'react-icons/fa';
+import {FaThumbsDown,FaThumbsUp,FaTv,FaBan}  from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
 import { Tooltip } from '@chakra-ui/react';
-import { useAddToWatchlistMutation } from '../../redux/services/userService';
+import { useAddToWatchListMutation,useMyWatchListQuery,useRemoveFromWatchListMutation} from '../../redux/services/userService';
+import { useState } from 'react';
 
 const ReactPlayer = dynamic(
     () => import('react-player'),
@@ -14,9 +15,48 @@ const ReactPlayer = dynamic(
 
 const StreamVideo=()=>{
     const router = useRouter();
-    const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
-    const [addToWatchlist,{ isLoading: isUpdating }] = useAddToWatchlistMutation();
     const toast = useToast();
+    const {data:watchlist} = useMyWatchListQuery();
+    const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
+    const [addToWatchlist,{ isLoading: isUpdating }] = useAddToWatchListMutation();
+    const [removeFromWatchList]=useRemoveFromWatchListMutation();
+    const [isOnWatchList,setIsOnWatchList] = useState(watchlist?.data?.includes(router?.query?.link));
+
+    const removeFromlist=async=>{
+        removeFromWatchList(router?.query?.link)
+        .unwrap()
+       .then((data)=>{
+        if(data?.result==='success'){
+            toast({
+                title: 'Removed from watchlist',
+                position:'top-right',
+                status: 'success',
+                duration: 1500,
+                isClosable: true,
+              })
+            setIsOnWatchList(false);
+        } else{
+            toast({
+                title: 'Something went wrong',
+                description:'Please try again later',
+                position:'top-right',
+                status: 'error',
+                duration: 1500,
+                isClosable: true,
+              })
+        }
+     }).catch((err) => {
+        console.log(err);
+        toast({
+          title: 'Sorry',
+          description:err.message,
+          position:'top-right',
+          status: 'error',
+          duration: 1500,
+          isClosable: true,
+        })
+      })
+    }
 
     const addToList=async()=>{
       addToWatchlist(router?.query?.link)
@@ -30,6 +70,7 @@ const StreamVideo=()=>{
                 duration: 1500,
                 isClosable: true,
               })
+            setIsOnWatchList(true);
         } else{
             toast({
                 title: 'Something went wrong',
@@ -120,14 +161,14 @@ const StreamVideo=()=>{
                             </Tooltip>
 
                             <Tooltip
-                             label={isUpdating ? 'Adding' :  'Add To  Watchlist'}
+                             label={isOnWatchList ? 'Remove from watchlist' : isUpdating ? 'Adding' :  'Add To  Watchlist'}
                              hasArrow
                             >
                             <Button
-                             onClick={addToList}
+                             onClick={isOnWatchList ? removeFromlist : addToList}
                             >
                                 <Icon
-                                as={FaTv}
+                                as={ isOnWatchList ? FaBan : FaTv}
                             />
                             </Button>
                             </Tooltip>

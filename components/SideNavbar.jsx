@@ -13,8 +13,10 @@ import {
 import {ImHome,ImUser,ImExit} from 'react-icons/im';
 import {FaVoteYea,FaThumbsUp} from 'react-icons/fa';
 import {AiTwotoneSetting} from 'react-icons/ai';
+import { useRouter } from 'next/router';
 
 const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
+  const router = useRouter();
     return(
       <Drawer
          isOpen={isOpenSidebar}
@@ -45,6 +47,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
                 w='40%'
                leftIcon={<ImHome color='white' size={'1rem'}/>}
+               onClick={()=>router.push('/home')}
               >
               <Text 
                fontSize={'2xl'} 
@@ -61,6 +64,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
                w='40%'
                leftIcon={<FaVoteYea color='white' size={'1rem'}/>}
+               onClick={()=>router.push('/watchlist')}
               >
               <Text 
               fontSize={'2xl'}
