@@ -1,10 +1,11 @@
 import styles from '../stylesheets/layout.module.css';
 import dynamic from 'next/dynamic';
-import { Flex,Box,Button, Icon,Text,Spinner } from '@chakra-ui/react';
+import { Flex,Box,Button, Icon,Text,Spinner,useToast, } from '@chakra-ui/react';
 import {FaThumbsDown,FaThumbsUp,FaTv}  from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
 import { Tooltip } from '@chakra-ui/react';
+import { useAddToWatchlistMutation } from '../../redux/services/userService';
 
 const ReactPlayer = dynamic(
     () => import('react-player'),
@@ -14,6 +15,43 @@ const ReactPlayer = dynamic(
 const StreamVideo=()=>{
     const router = useRouter();
     const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
+    const [addToWatchlist,{ isLoading: isUpdating }] = useAddToWatchlistMutation();
+    const toast = useToast();
+
+    const addToList=async()=>{
+      addToWatchlist(router?.query?.link)
+     .unwrap()
+     .then((data)=>{
+        if(data?.result==='success'){
+            toast({
+                title: 'Added to watchlist',
+                position:'top-right',
+                status: 'success',
+                duration: 1500,
+                isClosable: true,
+              })
+        } else{
+            toast({
+                title: 'Something went wrong',
+                description:'Please try again later',
+                position:'top-right',
+                status: 'error',
+                duration: 1500,
+                isClosable: true,
+              })
+        }
+     }).catch((err) => {
+        console.log(err);
+        toast({
+          title: 'Sorry',
+          description:err.message,
+          position:'top-right',
+          status: 'error',
+          duration: 1500,
+          isClosable: true,
+        })
+      })
+    }
 
     return(
         <div className={styles.page}>
@@ -82,10 +120,12 @@ const StreamVideo=()=>{
                             </Tooltip>
 
                             <Tooltip
-                            label={'Add To  Watchlist'}
-                            hasArrow
+                             label={isUpdating ? 'Adding' :  'Add To  Watchlist'}
+                             hasArrow
                             >
-                            <Button>
+                            <Button
+                             onClick={addToList}
+                            >
                                 <Icon
                                 as={FaTv}
                             />
