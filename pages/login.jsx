@@ -1,6 +1,4 @@
-import { loginUser } from '../redux/slices/authSlice';
-import {useDispatch} from 'react-redux';
-import { useState } from 'react';
+import { useLoginUserMutation } from '../redux/services/authService';
 import styles from './stylesheets/layout.module.css';
 import { 
   Input,
@@ -19,17 +17,14 @@ import Cookies from 'js-cookies';
 
 
 const Login=()=>{
-    const dispatch = useDispatch();
     const router = useRouter();
-    const [loading,setLoading]=useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const toast = useToast();
+    const [loginUser,{ isLoading: isUpdating }] = useLoginUserMutation();
 
   const onSubmit=data=>{
      const {email,password}=data;
-     setLoading(true);
      if(password?.length<8){
-      setLoading(false);
       toast({
         title: 'Password is less than 8 characters',
         position:'top-right',
@@ -38,7 +33,7 @@ const Login=()=>{
         isClosable: true,
       })
      } else {
-     dispatch(loginUser({email:email,password:password}))
+     loginUser({email:email,password:password})
      .unwrap()
      .then((data)=>{
       if(data?.result==='success'){
@@ -52,7 +47,6 @@ const Login=()=>{
         })
         router.push('/home');
       } else {
-        setLoading(false);
         toast({
           title: 'Something went wrong',
           description:'Please try again later...',
@@ -64,7 +58,6 @@ const Login=()=>{
       }
      })
      .catch((err) => {
-      setLoading(false);
       toast({
         title: 'Sign In Failed',
         description:err.message,
@@ -151,7 +144,7 @@ const Login=()=>{
              </Flex>
 
              <Tooltip
-             label={loading ? 'Signing In': 'Sign In'}
+             label={isUpdating ? 'Signing In': 'Sign In'}
              hasArrow
              bg={"#a742f5"}
              >
@@ -159,7 +152,7 @@ const Login=()=>{
              size={'lg'}
              leftIcon={<MdTheaters/>}
              type={'submit'}
-             isLoading={loading}
+             isLoading={isUpdating}
              >
                Let's Stream
              </Button>

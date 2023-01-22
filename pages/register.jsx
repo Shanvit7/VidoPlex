@@ -1,6 +1,4 @@
-import { registerUser } from '../redux/slices/authSlice';
-import {useDispatch} from 'react-redux';
-import {useState} from 'react';
+import { useRegisterUserMutation } from '../redux/services/authService';
 import styles from './stylesheets/layout.module.css';
 import { 
     Input,
@@ -20,16 +18,14 @@ import {BsPersonBadge} from 'react-icons/bs';
 
 
 const Register=()=>{
-    const dispatch = useDispatch();
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const toast = useToast();
-    const [loading,setLoading]=useState(false);
+    const [registerUser,{ isLoading: isUpdating }] = useRegisterUserMutation();
 
   const onSubmit=data=>{
     const {email,password,confirmPassword}=data;
     if(password?.length<8){
-      setLoading(false);
       toast({
         title: 'Password is less than 8 characters',
         position:'top-right',
@@ -39,7 +35,6 @@ const Register=()=>{
       })
     }
     else if (password !== confirmPassword){
-      setLoading(false);
       toast({
         title: 'Passwords do not match',
         position:'top-right',
@@ -48,7 +43,7 @@ const Register=()=>{
         isClosable: true,
       })
     }else{
-     dispatch(registerUser({email:email,password:password}))
+     registerUser({email:email,password:password})
      .unwrap()
      .then((data)=>{
       if(data.result==='success'){
@@ -60,7 +55,7 @@ const Register=()=>{
           duration: 2000,
           isClosable: true,
         })
-        router.push('/login');
+         router.push('/login');
       } else {
         toast({
           title: 'Registration Failed',
@@ -85,22 +80,21 @@ const Register=()=>{
     }
   }
 
-
-    return(
-      <div className={styles.page}>
+return(
+   <div className={styles.page}>
         <Flex flexDirection={'row'} >
 
-<Box width={'50vw'} height={'100vh'} display={'flex'} justifyContent={'center'}>
-  <img src='/register.svg' />
-</Box>
+    <Box width={'50vw'} height={'100vh'} display={'flex'} justifyContent={'center'}>
+     <img src='/register.svg' />
+   </Box>
 
- <Box
-  backgroundColor={'black'}
-  width={'50vw'}
-  display={'flex'}
-  justifyContent={'center'}
- >
-  <form onSubmit={handleSubmit(onSubmit)}>
+   <Box
+     backgroundColor={'black'}
+     width={'50vw'}
+     display={'flex'}
+     justifyContent={'center'}
+    >
+   <form onSubmit={handleSubmit(onSubmit)}>
     <Flex
      flexDirection={'column'}
      alignItems='center'
@@ -179,7 +173,7 @@ const Register=()=>{
      </Flex>
 
      <Tooltip
-     label={loading ? 'Creating account..': 'Sign Up'}
+     label={isUpdating ? 'Creating account..': 'Sign Up'}
      hasArrow
      bg={"#a742f5"}
      >
@@ -187,7 +181,7 @@ const Register=()=>{
      size={'lg'}
      leftIcon={<BsPersonBadge/>}
      type={'submit'}
-     isLoading={loading}
+     isLoading={isUpdating}
      >
        Create Account
      </Button>
