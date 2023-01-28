@@ -8,11 +8,11 @@ const KEY = new TextEncoder().encode(
 
 const handler=async(req, res)=>{
     try{
-     const {accessToken,videoId}= req.body;
+     const {accessToken,addedVideo}= req.body;
      const { database } = await connectToDatabase();
      const collection = database.collection('users');
      const {payload} = await jwtVerify(accessToken,KEY);
-     const response = await collection.updateOne({email:payload.email},{ $push: {watchlist:videoId} });
+     const response = await collection.updateOne({email:payload.email},{ $push: {watchlist:addedVideo} });
      if(response){
         return res.status(200).json({result:'success',message:'Added to watchlist'});
      } else{

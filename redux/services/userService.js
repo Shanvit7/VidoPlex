@@ -30,8 +30,8 @@ export const userApi = createApi({
     }),
     endpoints:(builder)=>({
         addToWatchList: builder.mutation({
-            query: (videoId) =>
-            ({ url: '/add-to-watchlist', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+            query: (video) =>
+            ({ url: '/add-to-watchlist', method: 'post', data:{addedVideo:video,accessToken:Cookies.getItem('access-token')}}),
         }),
         myWatchList: builder.query({
           query: () =>
@@ -42,8 +42,8 @@ export const userApi = createApi({
           ({ url: '/remove-from-watchlist', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
         }),
         likeTheTitle: builder.mutation({
-          query:(videoId)=>
-          ({ url: '/like-the-title', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+          query:(video)=>
+          ({ url: '/like-the-title', method: 'post', data:{addedVideo:video,accessToken:Cookies.getItem('access-token')}}),
         }),
         removeFromLiked: builder.mutation({
           query:(videoId)=>
@@ -51,7 +51,7 @@ export const userApi = createApi({
         }),
         likedTitles:builder.query({
           query:()=>
-          ({ url: '/liked-titles', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+          ({ url: '/my-liked-titles', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
         }),
   }),
 })

@@ -5,11 +5,3 @@
     flex-direction: column;
     overflow-x: hidden;
 }
-
-.watchlist_page{
-    width: 100vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}

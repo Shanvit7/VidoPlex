@@ -3,27 +3,27 @@ import styles from './stylesheets/layout.module.css';
 import SideNavbar from '../components/SideNavbar';
 import TopNavbar from '../components/TopNavbar';
 import { Text,useDisclosure, Spinner, Box, SimpleGrid, Card,Image, Center} from '@chakra-ui/react';
-import { useMyWatchListQuery } from '../redux/services/userService';
+import { useLikedTitlesQuery } from '../redux/services/userService';
 import { useRouter } from 'next/router';
 
-const WatchList=()=>{
+const LikedTitles=()=>{
     const { isOpen,onClose,onOpen } = useDisclosure();
     const btnRef = useRef();
-    const {data:watchlistVideos={},watchlistError,isLoading:isWatchlistLoading} = useMyWatchListQuery();
+    const {data:likedTitles={},likedTitlesError,isLoading:isLikedTitlesLoading} = useLikedTitlesQuery();
     const [isNoVideos,setIsNoVideos]=useState();
     const router= useRouter();
     useEffect(()=>{
-    if(watchlistVideos)
-     setIsNoVideos(watchlistVideos.data?.length===0); 
+    if(likedTitles)
+     setIsNoVideos(likedTitles.data?.length===0); 
     })
     return(
         <div className={styles.page}>
             {
-                isWatchlistLoading
+                isLikedTitlesLoading
                 ?
                 <Spinner color='#a742f5' size={'xl'} thickness={'5px'} speed={'0.30s'} />
                 :
-                watchlistError
+                likedTitlesError
                 ?
                 (<>
                   <TopNavbar  passRef={btnRef}  openSideBar={onOpen}/>
@@ -54,7 +54,7 @@ const WatchList=()=>{
              fontSize={'5xl'}
               marginTop='1%'
             >
-             {isNoVideos ? 'No videos found. Add videos to stream later' :'My Watchlist'}
+             {isNoVideos ? `No videos found. Add your favorite one's ` :'My Liked Titles'}
             </Text>
             <SimpleGrid templateColumns={`repeat(4, 1fr)`} spacing={15} m='2%'>
             {
@@ -68,13 +68,13 @@ const WatchList=()=>{
              display={'flex'}
              justifyContent={'center'}
             >
-             <img src='/watchlist.svg' />
+             <img src='/liked-titles.svg' />
             </Box>
           </Center>
           )
           :
           (
-            watchlistVideos.data?.map((video,key)=>(
+            likedTitles.data?.map((video,key)=>(
               <Box
                w={[null,'25','25','25','30']}
                h={[null,'70','60','60','60']}
@@ -103,4 +103,4 @@ const WatchList=()=>{
 }
 
 
-export default WatchList;
+export default LikedTitles;

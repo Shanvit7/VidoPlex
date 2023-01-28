@@ -24,34 +24,39 @@ const ReactPlayer = dynamic(
 const StreamVideo=()=>{
     const router = useRouter();
     const toast = useToast();
-    const {data:watchlist,refetch:refetchWatchlist} = useMyWatchListQuery();
-    const {data:likedTitles,refetch:refetchLikedTitles}= useLikedTitlesQuery();
+    const {data:watchlist={},refetch:refetchWatchlist} = useMyWatchListQuery();
+    const {data:likedTitles={},refetch:refetchLikedTitles}= useLikedTitlesQuery();
     const {data:video,error,isLoading} = useGetVideoQuery(router.query.link);
     const [addToWatchlist,{ isLoading: isWatchlistUpdating }] = useAddToWatchListMutation();
-    const [removeFromLiked,{ isLoading: isLikedRemoveUpdating }] = useRemoveFromLikedMutation();
+    const [removeFromLiked] = useRemoveFromLikedMutation();
     const [removeFromWatchList]=useRemoveFromWatchListMutation();
     const [likeTheTitle,{isLoading:isLikeUpdating}]= useLikeTheTitleMutation();
     const [isOnWatchList,setIsOnWatchList] = useState();
     const [isAlreadyLiked,setIsAlreadyLiked]=useState();
+    
 
     useEffect(()=>{
       if(watchlist)
-       setIsOnWatchList(watchlist?.data?.includes(router?.query?.link));
+       setIsOnWatchList(watchlist.data?.some((video)=>{
+        return video.id===router?.query?.link
+       }))
     });
 
     useEffect(()=>{
       if(likedTitles)
-       setIsAlreadyLiked(likedTitles?.data?.includes(router?.query?.link));
+      setIsAlreadyLiked(likedTitles.data?.some((video)=>{
+        return video.id===router?.query?.link
+       }))
     });
 
 
     const likeTheCurrentTitle=async(titleName)=>{
-      likeTheTitle(router?.query?.link)
+      likeTheTitle(video)
       .unwrap()
       .then((data)=>{
        if(data?.result==='success'){
            toast({
-               title: `You have liked ${titleName}`,
+               title: `You have liked "${titleName}"`,
                position:'top-right',
                status: 'success',
                duration: 1500,
@@ -88,7 +93,7 @@ const StreamVideo=()=>{
       .then((data)=>{
        if(data?.result==='success'){
            toast({
-               title: `Removed ${titleName} from liked titles`,
+               title: `Removed "${titleName}" from liked titles`,
                position:'top-right',
                status: 'success',
                duration: 1500,
@@ -120,19 +125,19 @@ const StreamVideo=()=>{
 
     }
 
-    const removeFromlist=async()=>{
+    const removeFromlist=async(titleName)=>{
         removeFromWatchList(router?.query?.link)
         .unwrap()
        .then((data)=>{
         if(data?.result==='success'){
             toast({
-                title: 'Removed from watchlist',
+                title: `Removed "${titleName}" from watchlist`,
                 position:'top-right',
                 status: 'success',
                 duration: 1500,
                 isClosable: true,
               })
-             refetchWatchlist();
+          refetchWatchlist();
         } else{
             toast({
                 title: 'Something went wrong',
@@ -156,19 +161,19 @@ const StreamVideo=()=>{
       })
     }
 
-    const addToList=async()=>{
-      addToWatchlist(router?.query?.link)
+    const addToList=async(titleName)=>{
+      addToWatchlist(video)
      .unwrap()
      .then((data)=>{
         if(data?.result==='success'){
             toast({
-                title: 'Added to watchlist',
+                title: `Added "${titleName}" to watchlist`,
                 position:'top-right',
                 status: 'success',
                 duration: 1500,
                 isClosable: true,
               })
-            refetchWatchlist();
+          refetchWatchlist();
         } else{
             toast({
                 title: 'Something went wrong',
@@ -220,7 +225,7 @@ const StreamVideo=()=>{
             :
             (
             <Flex flexDirection={['column-reverse','row']}>
-
+ 
                     <Box
                      h='100vh'
                      w={['100vw','50vw']}
@@ -237,7 +242,7 @@ const StreamVideo=()=>{
                         <Flex m='10%' justifyContent={'space-around'}>
 
                             <Tooltip
-                            label={isAlreadyLiked ? 'Remove from liked' : isLikeUpdating ? 'Liking this...' :'Like This'}
+                            label={isAlreadyLiked ? 'Remove from liked' : isLikeUpdating ? 'Liking It...' :'Like'}
                             hasArrow
                             >
                             <Button
@@ -254,7 +259,7 @@ const StreamVideo=()=>{
                              hasArrow
                             >
                             <Button
-                             onClick={isOnWatchList ? removeFromlist : addToList}
+                             onClick={()=> isOnWatchList ? removeFromlist(video?.title) : addToList(video?.title)}
                             >
                                 <Icon
                                 as={ isOnWatchList ? FaBan : FaTv}
@@ -267,7 +272,7 @@ const StreamVideo=()=>{
                             <Text
                             fontSize={'3xl'}
                             >
-                                Trivia
+                                Synopsis
                             </Text>
                         </Flex>
                         <Flex m='5%'>

@@ -12,7 +12,7 @@ const handler=async(req, res)=>{
      const { database } = await connectToDatabase();
      const collection = database.collection('users');
      const {payload} = await jwtVerify(accessToken,KEY);
-     const response = await collection.updateOne({email:payload.email},{ $pull: {watchlist:videoId} });
+     const response = await collection.updateOne({email:payload.email},{ $pull: {watchlist:{id:videoId}} });
      if(response){
         return res.status(200).json({result:'success',message:'Removed from watchlist'});
      } else{
