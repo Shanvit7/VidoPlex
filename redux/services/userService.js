@@ -41,7 +41,19 @@ export const userApi = createApi({
           query: (videoId) =>
           ({ url: '/remove-from-watchlist', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
         }),
+        likeTheTitle: builder.mutation({
+          query:(videoId)=>
+          ({ url: '/like-the-title', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+        }),
+        removeFromLiked: builder.mutation({
+          query:(videoId)=>
+          ({ url: '/remove-from-liked-titles', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+        }),
+        likedTitles:builder.query({
+          query:()=>
+          ({ url: '/liked-titles', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+        }),
   }),
 })
 
-export const { useAddToWatchListMutation, useMyWatchListQuery,useRemoveFromWatchListMutation } = userApi;
+export const { useAddToWatchListMutation, useMyWatchListQuery,useRemoveFromWatchListMutation,useLikeTheTitleMutation,useLikedTitlesQuery,useRemoveFromLikedMutation } = userApi;

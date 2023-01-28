@@ -5,7 +5,7 @@ const handler=async(req, res)=>{
      const {email,password}= req.body;
      const { database } = await connectToDatabase();
      const collection = database.collection('users');
-     await collection.insertOne({email:email,password:password});
+     await collection.insertOne({email:email,password:password,watchlist:[],likedTitles:[]});
      return res.status(200).json({result:'success',message:'User created successfully'});
     }
     catch(e){

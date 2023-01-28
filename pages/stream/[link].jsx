@@ -1,12 +1,20 @@
 import styles from '../stylesheets/layout.module.css';
 import dynamic from 'next/dynamic';
 import { Flex,Box,Button, Icon,Text,Spinner,useToast, } from '@chakra-ui/react';
-import {FaThumbsDown,FaThumbsUp,FaTv,FaBan}  from 'react-icons/fa';
+import {FaTv,FaBan}  from 'react-icons/fa';
+import {AiFillLike,AiOutlineLike} from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
 import { Tooltip } from '@chakra-ui/react';
-import { useAddToWatchListMutation,useMyWatchListQuery,useRemoveFromWatchListMutation} from '../../redux/services/userService';
-import { useState } from 'react';
+import { 
+  useAddToWatchListMutation,
+  useMyWatchListQuery,
+  useRemoveFromWatchListMutation,
+  useLikeTheTitleMutation,
+  useLikedTitlesQuery,
+  useRemoveFromLikedMutation,
+} from '../../redux/services/userService';
+import { useState,useEffect} from 'react';
 
 const ReactPlayer = dynamic(
     () => import('react-player'),
@@ -16,13 +24,103 @@ const ReactPlayer = dynamic(
 const StreamVideo=()=>{
     const router = useRouter();
     const toast = useToast();
-    const {data:watchlist} = useMyWatchListQuery();
-    const {data,error,isLoading} = useGetVideoQuery(router?.query?.link);
-    const [addToWatchlist,{ isLoading: isUpdating }] = useAddToWatchListMutation();
+    const {data:watchlist,refetch:refetchWatchlist} = useMyWatchListQuery();
+    const {data:likedTitles,refetch:refetchLikedTitles}= useLikedTitlesQuery();
+    const {data:video,error,isLoading} = useGetVideoQuery(router.query.link);
+    const [addToWatchlist,{ isLoading: isWatchlistUpdating }] = useAddToWatchListMutation();
+    const [removeFromLiked,{ isLoading: isLikedRemoveUpdating }] = useRemoveFromLikedMutation();
     const [removeFromWatchList]=useRemoveFromWatchListMutation();
-    const [isOnWatchList,setIsOnWatchList] = useState(watchlist?.data?.includes(router?.query?.link));
+    const [likeTheTitle,{isLoading:isLikeUpdating}]= useLikeTheTitleMutation();
+    const [isOnWatchList,setIsOnWatchList] = useState();
+    const [isAlreadyLiked,setIsAlreadyLiked]=useState();
 
-    const removeFromlist=async=>{
+    useEffect(()=>{
+      if(watchlist)
+       setIsOnWatchList(watchlist?.data?.includes(router?.query?.link));
+    });
+
+    useEffect(()=>{
+      if(likedTitles)
+       setIsAlreadyLiked(likedTitles?.data?.includes(router?.query?.link));
+    });
+
+
+    const likeTheCurrentTitle=async(titleName)=>{
+      likeTheTitle(router?.query?.link)
+      .unwrap()
+      .then((data)=>{
+       if(data?.result==='success'){
+           toast({
+               title: `You have liked ${titleName}`,
+               position:'top-right',
+               status: 'success',
+               duration: 1500,
+               isClosable: true,
+             })
+            refetchLikedTitles();
+       } else{
+           toast({
+               title: 'Something went wrong',
+               description:'Please try again later',
+               position:'top-right',
+               status: 'error',
+               duration: 1500,
+               isClosable: true,
+             })
+       }
+    }).catch((err) => {
+       console.log(err);
+       toast({
+         title: 'Sorry',
+         description:err.message,
+         position:'top-right',
+         status: 'error',
+         duration: 1500,
+         isClosable: true,
+       })
+     })
+
+    }
+
+    const removeFromLikedTitles=async(titleName)=>{
+      removeFromLiked(router?.query?.link)
+      .unwrap()
+      .then((data)=>{
+       if(data?.result==='success'){
+           toast({
+               title: `Removed ${titleName} from liked titles`,
+               position:'top-right',
+               status: 'success',
+               duration: 1500,
+               isClosable: true,
+             })
+            refetchLikedTitles();
+       } else{
+           toast({
+               title: 'Something went wrong',
+               description:'Please try again later',
+               position:'top-right',
+               status: 'error',
+               duration: 1500,
+               isClosable: true,
+             })
+       }
+    }).catch((err) => {
+       console.log(err);
+       toast({
+         title: 'Sorry',
+         description:err.message,
+         position:'top-right',
+         status: 'error',
+         duration: 1500,
+         isClosable: true,
+       })
+     })
+
+
+    }
+
+    const removeFromlist=async()=>{
         removeFromWatchList(router?.query?.link)
         .unwrap()
        .then((data)=>{
@@ -34,7 +132,7 @@ const StreamVideo=()=>{
                 duration: 1500,
                 isClosable: true,
               })
-            setIsOnWatchList(false);
+             refetchWatchlist();
         } else{
             toast({
                 title: 'Something went wrong',
@@ -70,7 +168,7 @@ const StreamVideo=()=>{
                 duration: 1500,
                 isClosable: true,
               })
-            setIsOnWatchList(true);
+            refetchWatchlist();
         } else{
             toast({
                 title: 'Something went wrong',
@@ -133,35 +231,26 @@ const StreamVideo=()=>{
                           m='4%'
                         >
                           {
-                            data?.title
+                            video?.title
                           }
                         </Text>
                         <Flex m='10%' justifyContent={'space-around'}>
 
                             <Tooltip
-                            label={'Liked This'}
+                            label={isAlreadyLiked ? 'Remove from liked' : isLikeUpdating ? 'Liking this...' :'Like This'}
                             hasArrow
                             >
-                            <Button>
-                                <Icon
-                                as={FaThumbsUp}
+                            <Button
+                             onClick={()=>isAlreadyLiked ? removeFromLikedTitles(video?.title) : likeTheCurrentTitle(video?.title)}
+                            >
+                              <Icon
+                               as={ isAlreadyLiked ?  AiFillLike : AiOutlineLike}
                             />
                             </Button>
                             </Tooltip>
 
                             <Tooltip
-                            label={'Not for me'}
-                            hasArrow
-                            >
-                            <Button>
-                                <Icon
-                                 as={FaThumbsDown}
-                            />
-                            </Button>
-                            </Tooltip>
-
-                            <Tooltip
-                             label={isOnWatchList ? 'Remove from watchlist' : isUpdating ? 'Adding' :  'Add To  Watchlist'}
+                             label={isOnWatchList ? 'Remove from watchlist' : isWatchlistUpdating ? 'Adding...' :  'Add To Watchlist'}
                              hasArrow
                             >
                             <Button
@@ -184,7 +273,7 @@ const StreamVideo=()=>{
                         <Flex m='5%'>
                            <Text>
                                {
-                                data?.description
+                                video?.description
                                }
                             </Text>
                         </Flex>
@@ -195,10 +284,10 @@ const StreamVideo=()=>{
                     w={['100vw','50vw']}
                     >
                     <ReactPlayer
-                         url={data?.mp4?.url}
+                         url={video?.mp4?.url}
                          playing={true}
                          controls={true}
-                         light={data?.thumbnail2.url}
+                         light={video?.thumbnail2.url}
                          height={'100%'}
                          width={'100%'}
                     />
