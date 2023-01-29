@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../lib/mongodb";
+import { connectToDatabase } from "../../../lib/mongodb";
 import { SignJWT } from "jose";
 
 const KEY = new TextEncoder().encode(

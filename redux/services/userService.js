@@ -53,7 +53,24 @@ export const userApi = createApi({
           query:()=>
           ({ url: '/my-liked-titles', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
         }),
+        myWatchHistory:builder.query({
+          query:()=>
+          ({ url: '/watch-history', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+        }),
+        updateMyWatchHistory:builder.mutation({
+          query:(video)=>
+          ({url: '/update-watch-history', method: 'post', data:{addedVideo:video,accessToken:Cookies.getItem('access-token')}}),
+        }),
   }),
 })
 
-export const { useAddToWatchListMutation, useMyWatchListQuery,useRemoveFromWatchListMutation,useLikeTheTitleMutation,useLikedTitlesQuery,useRemoveFromLikedMutation } = userApi;
+export const { 
+  useAddToWatchListMutation,
+  useMyWatchListQuery,
+  useRemoveFromWatchListMutation,
+  useLikeTheTitleMutation,
+  useLikedTitlesQuery,
+  useRemoveFromLikedMutation,
+  useMyWatchHistoryQuery,
+  useUpdateMyWatchHistoryMutation,
+ } = userApi;

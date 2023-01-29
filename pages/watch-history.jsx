@@ -1,29 +1,30 @@
-import {useRef,useState,useEffect} from'react';
 import styles from './stylesheets/layout.module.css';
-import SideNavbar from '../components/SideNavbar';
+import { useMyWatchHistoryQuery } from '../redux/services/userService';
 import TopNavbar from '../components/TopNavbar';
+import SideNavbar from '../components/SideNavbar';
+import { useRef,useState ,useEffect} from 'react';
 import { Text,useDisclosure, Spinner, Box, SimpleGrid, Card,Image, Center} from '@chakra-ui/react';
-import { useLikedTitlesQuery } from '../redux/services/userService';
 import { useRouter } from 'next/router';
 
-const LikedTitles=()=>{
+const WatchHistory=()=>{
+    const {data:myWatchHistory={},error:myWatchHistoryError,isLoading:isMyWatchHistoryLoading} = useMyWatchHistoryQuery();
     const { isOpen,onClose,onOpen } = useDisclosure();
     const btnRef = useRef();
-    const {data:likedTitles={},error:likedTitlesError,isLoading:isLikedTitlesLoading} = useLikedTitlesQuery();
     const [isNoVideos,setIsNoVideos]=useState();
     const router= useRouter();
     useEffect(()=>{
-    if(likedTitles)
-     setIsNoVideos(likedTitles.data?.length===0); 
+    if(myWatchHistory)
+     setIsNoVideos(myWatchHistory.data?.length===0); 
     })
+
     return(
         <div className={styles.page}>
             {
-                isLikedTitlesLoading
+                isMyWatchHistoryLoading
                 ?
                 <Spinner color='#a742f5' size={'xl'} thickness={'5px'} speed={'0.30s'} />
                 :
-                likedTitlesError
+                myWatchHistoryError
                 ?
                 (<>
                   <TopNavbar  passRef={btnRef}  openSideBar={onOpen}/>
@@ -54,7 +55,7 @@ const LikedTitles=()=>{
              fontSize={'5xl'}
               marginTop='1%'
             >
-             {isNoVideos ? `No videos found. Add your favorite one's ` :'My Liked Titles'}
+             {isNoVideos ? 'Start streaming now' :'My Watch History'}
             </Text>
             <SimpleGrid templateColumns={`repeat(4, 1fr)`} spacing={15} m='2%'>
             {
@@ -68,13 +69,13 @@ const LikedTitles=()=>{
              display={'flex'}
              justifyContent={'center'}
             >
-             <img src='/liked-titles.svg' />
+             <img src='/watchlist.svg' />
             </Box>
           </Center>
           )
           :
           (
-            likedTitles.data?.map((video,key)=>(
+            myWatchHistory.data?.map((video,key)=>(
               <Box
                w={[null,'25','25','25','30']}
                h={[null,'70','60','60','60']}
@@ -102,5 +103,4 @@ const LikedTitles=()=>{
     )
 }
 
-
-export default LikedTitles;
+export default WatchHistory;

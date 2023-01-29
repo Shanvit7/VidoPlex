@@ -14,13 +14,13 @@ const handler=async(req, res)=>{
      const {payload} = await jwtVerify(accessToken,KEY);
      const response = await collection.updateOne({email:payload.email},{ $pull: {likedTitles:{id:videoId}} });
      if(response){
-        return res.status(200).json({result:'success',message:'Removed from Liked Titles'});
+        return res.status(200).json({result:'success',message:'Removed from liked titles'});
      } else{
-        return res.status(500).json({result:'failed',message:'Something Went Wrong. Please Try Later'})
+        return res.status(500).json({result:'failed',message:'Something went wrong. Please try again'})
      } 
     }
     catch(e){
-        return  res.status(500).json({result:'failed',message:'Server Down. Please Try Later'});
+        return  res.status(500).json({result:'failed',message:'Server down. Please try later'});
     }
 }
 

@@ -16,11 +16,11 @@ const handler=async(req, res)=>{
      if(response){
         return res.status(200).json({result:'success',message:'Liked titles received',data:response.likedTitles});
      } else{
-        return res.status(500).json({result:'failed',message:'Something Went Wrong. Please Try Later'})
+        return res.status(500).json({result:'failed',message:'Something went wrong. Please try again'})
      } 
     }
     catch(e){
-        return  res.status(500).json({result:'failed',message:'Server Down. Please Try Later'});
+        return  res.status(500).json({result:'failed',message:'Server down. Please try later'});
     }
 }
 

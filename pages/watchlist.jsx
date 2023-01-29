@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 const WatchList=()=>{
     const { isOpen,onClose,onOpen } = useDisclosure();
     const btnRef = useRef();
-    const {data:watchlistVideos={},watchlistError,isLoading:isWatchlistLoading} = useMyWatchListQuery();
+    const {data:watchlistVideos={},error:watchlistError,isLoading:isWatchlistLoading} = useMyWatchListQuery();
     const [isNoVideos,setIsNoVideos]=useState();
     const router= useRouter();
     useEffect(()=>{

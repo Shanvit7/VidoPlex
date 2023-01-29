@@ -14,13 +14,13 @@ const handler=async(req, res)=>{
      const {payload} = await jwtVerify(accessToken,KEY);
      const response = await collection.findOne({email:payload.email});
      if(response){
-        return res.status(200).json({result:'success',message:'Watchlist received',data:response.watchlist});
+        return res.status(200).json({result:'success',message:'Watch history received',data:response.watchHistory});
      } else{
-        return res.status(500).json({result:'failed',message:'Something went wrong. Please try again'})
+        return res.status(500).json({result:'failed',message:'Something Went Wrong. Please Try Later'})
      } 
     }
     catch(e){
-        return  res.status(500).json({result:'failed',message:'Server down. Please try later'});
+        return  res.status(500).json({result:'failed',message:'Server Down. Please Try Later'});
     }
 }
 

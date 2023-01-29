@@ -1,11 +1,10 @@
 import styles from '../stylesheets/layout.module.css';
 import dynamic from 'next/dynamic';
-import { Flex,Box,Button, Icon,Text,Spinner,useToast, } from '@chakra-ui/react';
+import { Flex,Box,Button, Icon,Text,Spinner,useToast,Tooltip,} from '@chakra-ui/react';
 import {FaTv,FaBan}  from 'react-icons/fa';
 import {AiFillLike,AiOutlineLike} from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
-import { Tooltip } from '@chakra-ui/react';
 import { 
   useAddToWatchListMutation,
   useMyWatchListQuery,
@@ -13,6 +12,7 @@ import {
   useLikeTheTitleMutation,
   useLikedTitlesQuery,
   useRemoveFromLikedMutation,
+  useUpdateMyWatchHistoryMutation
 } from '../../redux/services/userService';
 import { useState,useEffect} from 'react';
 
@@ -23,6 +23,7 @@ const ReactPlayer = dynamic(
 
 const StreamVideo=()=>{
     const router = useRouter();
+
     const toast = useToast();
     const {data:watchlist={},refetch:refetchWatchlist} = useMyWatchListQuery();
     const {data:likedTitles={},refetch:refetchLikedTitles}= useLikedTitlesQuery();
@@ -31,6 +32,7 @@ const StreamVideo=()=>{
     const [removeFromLiked] = useRemoveFromLikedMutation();
     const [removeFromWatchList]=useRemoveFromWatchListMutation();
     const [likeTheTitle,{isLoading:isLikeUpdating}]= useLikeTheTitleMutation();
+    const [updateMyWatchHistory]=useUpdateMyWatchHistoryMutation();
     const [isOnWatchList,setIsOnWatchList] = useState();
     const [isAlreadyLiked,setIsAlreadyLiked]=useState();
     
@@ -295,6 +297,7 @@ const StreamVideo=()=>{
                          light={video?.thumbnail2.url}
                          height={'100%'}
                          width={'100%'}
+                         onPlay={()=>updateMyWatchHistory(video)}
                     />
                     </Box>
             </Flex>

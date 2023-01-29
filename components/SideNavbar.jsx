@@ -10,7 +10,7 @@ import {
     Center,
     Button,
 } from '@chakra-ui/react';
-import {ImHome,ImUser,ImExit} from 'react-icons/im';
+import {ImHome,ImExit,ImHistory} from 'react-icons/im';
 import {FaVoteYea,FaThumbsUp} from 'react-icons/fa';
 import { useRouter } from 'next/router';
 
@@ -96,13 +96,14 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
                w='40%'
-               leftIcon={<ImUser color='white' size={'1rem'}/>}
+               leftIcon={<ImHistory color='white' size={'1rem'}/>}
+               onClick={()=>router.push('/watch-history')}
               >
               <Text 
                fontSize={'2xl'}
                color='white'
                >
-                  My account
+                  Watch History
                 </Text>
               </Button>
               </Center>
