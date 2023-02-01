@@ -1,8 +1,7 @@
 import styles from '../stylesheets/layout.module.css';
-import dynamic from 'next/dynamic';
 import { Flex,Box,Button, Icon,Text,Spinner,useToast,Tooltip,} from '@chakra-ui/react';
 import {FaTv,FaBan}  from 'react-icons/fa';
-import {AiFillLike,AiOutlineLike} from 'react-icons/ai';
+import {AiFillLike,AiFillPlayCircle,AiOutlineLike} from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { useGetVideoQuery } from '../../redux/services/videoService';
 import { 
@@ -16,14 +15,9 @@ import {
 } from '../../redux/services/userService';
 import { useState,useEffect} from 'react';
 
-const ReactPlayer = dynamic(
-    () => import('react-player'),
-    { ssr: false }
-);
 
-const StreamVideo=()=>{
+const StreamTitle=()=>{
     const router = useRouter();
-
     const toast = useToast();
     const {data:watchlist={},refetch:refetchWatchlist} = useMyWatchListQuery();
     const {data:likedTitles={},refetch:refetchLikedTitles}= useLikedTitlesQuery();
@@ -226,12 +220,16 @@ const StreamVideo=()=>{
             )
             :
             (
-            <Flex flexDirection={['column-reverse','row']}>
+            <Flex 
+             flexDirection={['column-reverse','row']}
+             w='100vw'
+             >
  
                     <Box
                      h='100vh'
-                     w={['100vw','50vw']}
+                     w='100vw'
                     >
+                     
                          <Text
                           fontSize={'5xl'}
                           textAlign='center'
@@ -241,6 +239,7 @@ const StreamVideo=()=>{
                             video?.title
                           }
                         </Text>
+
                         <Flex m='10%' justifyContent={'space-around'}>
 
                             <Tooltip
@@ -255,6 +254,21 @@ const StreamVideo=()=>{
                             />
                             </Button>
                             </Tooltip>
+
+
+                            <Tooltip
+                            label={'Play'}
+                            hasArrow
+                            >
+                            <Button
+                            onClick={()=>router.push(`/play/${video?.id}`)}
+                            >
+                              <Icon
+                               as={AiFillPlayCircle}
+                            />
+                            </Button>
+                            </Tooltip>
+
 
                             <Tooltip
                              label={isOnWatchList ? 'Remove from watchlist' : isWatchlistUpdating ? 'Adding...' :  'Add To Watchlist'}
@@ -284,22 +298,8 @@ const StreamVideo=()=>{
                                }
                             </Text>
                         </Flex>
-                    </Box>
+                        </Box>
 
-                    <Box
-                    h={['50vh','100vh']}
-                    w={['100vw','50vw']}
-                    >
-                    <ReactPlayer
-                         url={video?.mp4?.url}
-                         playing={true}
-                         controls={true}
-                         light={video?.thumbnail2.url}
-                         height={'100%'}
-                         width={'100%'}
-                         onPlay={()=>updateMyWatchHistory(video)}
-                    />
-                    </Box>
             </Flex>
         )}
         </div>
@@ -307,4 +307,4 @@ const StreamVideo=()=>{
     )
 }
 
-export default StreamVideo;
+export default StreamTitle;

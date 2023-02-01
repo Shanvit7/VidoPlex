@@ -48,7 +48,7 @@ const VideoDrawer=({contentTitle,videos})=>{
                 <Image 
                  src={video?.thumbnail.url}
                  alt={'video'}
-                  onClick={()=>{
+                 onClick={()=>{
                  router.push(`/stream/${video.id}`)
               }}
                 />

@@ -12,6 +12,8 @@
     "@chakra-ui/react": "^2.4.4",
     "@next/font": "13.0.7",
     "@reduxjs/toolkit": "^1.9.1",
+    "@vime/core": "^5.4.0",
+    "@vime/react": "^5.4.0",
     "axios": "^1.2.1",
     "eslint": "8.30.0",
     "eslint-config-next": "13.0.7",
@@ -24,7 +26,6 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.41.0",
     "react-icons": "^4.7.1",
-    "react-player": "^2.11.0",
     "react-redux": "^8.0.5"
   }
 }
