@@ -1,5 +1,5 @@
 import styles from '../stylesheets/layout.module.css';
-import { Flex,Box,Button, Icon,Text,Spinner,useToast,Tooltip,} from '@chakra-ui/react';
+import { Flex,Box,Button, Icon,Text,Spinner,useToast,Tooltip, useDisclosure} from '@chakra-ui/react';
 import {FaTv,FaBan}  from 'react-icons/fa';
 import {AiFillLike,AiFillPlayCircle,AiOutlineLike} from 'react-icons/ai';
 import { useRouter } from 'next/router';
@@ -13,12 +13,15 @@ import {
   useRemoveFromLikedMutation,
   useUpdateMyWatchHistoryMutation
 } from '../../redux/services/userService';
-import { useState,useEffect} from 'react';
-
+import { useState,useEffect,useRef} from 'react';
+import TopNavbar from '../../components/TopNavbar';
+import SideNavbar from '../../components/SideNavbar';
 
 const StreamTitle=()=>{
     const router = useRouter();
     const toast = useToast();
+    const { isOpen,onClose,onOpen } = useDisclosure();
+    const btnRef = useRef();
     const {data:watchlist={},refetch:refetchWatchlist} = useMyWatchListQuery();
     const {data:likedTitles={},refetch:refetchLikedTitles}= useLikedTitlesQuery();
     const {data:video,error,isLoading} = useGetVideoQuery(router.query.link);
@@ -229,7 +232,8 @@ const StreamTitle=()=>{
                      h='100vh'
                      w='100vw'
                     >
-                     
+                      <TopNavbar  passRef={btnRef}  openSideBar={onOpen}/>
+                      <SideNavbar passRef={btnRef} isOpenSidebar={isOpen} closeSidebar={onClose}/>
                          <Text
                           fontSize={'5xl'}
                           textAlign='center'

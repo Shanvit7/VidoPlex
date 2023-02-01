@@ -87,7 +87,7 @@ const WatchHistory=()=>{
                      src={video?.thumbnail.url}
                      alt={'video'}
                      onClick={()=>{
-                     router.push(`/stream/${video.id}`)
+                     router.push(`/watch/${video.id}`)
                  }}
                    />
                  </Card>
