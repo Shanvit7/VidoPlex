@@ -14,7 +14,7 @@ const handler=async(req, res)=>{
      const {payload} = await jwtVerify(accessToken,KEY);
      const response = await collection.findOne({email:payload.email});
      if(response){
-        return res.status(200).json({result:'success',message:'Watchlist received',data:response.watchlist});
+        return res.status(200).json({result:'success',message:'Watchlist received',data:response.watchlist.reverse()});
      } else{
         return res.status(500).json({result:'failed',message:'Something went wrong. Please try again'})
      } 
