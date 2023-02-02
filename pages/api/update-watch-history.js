@@ -12,8 +12,8 @@ const handler=async(req, res)=>{
      const { database } = await connectToDatabase();
      const collection = database.collection('users');
      const {payload} = await jwtVerify(accessToken,KEY);
-     await collection.updateOne({email:payload.email},{ $pull: {watchlist:{id:addedVideo.id}} });
-     const addVideoResponse = await collection.updateOne({email:payload.email},{ $push: {watchlist:addedVideo}});
+     await collection.updateOne({email:payload.email},{ $pull: {watchHistory:{id:addedVideo.id}} });
+     const addVideoResponse = await collection.updateOne({email:payload.email},{ $push: {watchHistory:addedVideo}});
      if(addVideoResponse)
       return res.status(200).json({result:'success',message:'Updated watch history'});
       else

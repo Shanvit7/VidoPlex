@@ -28,6 +28,7 @@ export const userApi = createApi({
     baseQuery: axiosBaseQuery({
         baseUrl: 'http://localhost:3000/api',
     }),
+    tagTypes:['watchHistoryData'],
     endpoints:(builder)=>({
         addToWatchList: builder.mutation({
             query: (video) =>
@@ -56,10 +57,12 @@ export const userApi = createApi({
         myWatchHistory:builder.query({
           query:()=>
           ({ url: '/watch-history', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+          providesTags:['watchHistoryData'],
         }),
         updateMyWatchHistory:builder.mutation({
           query:(video)=>
           ({url: '/update-watch-history', method: 'post', data:{addedVideo:video,accessToken:Cookies.getItem('access-token')}}),
+          invalidatesTags:['watchHistoryData'],
         }),
   }),
 })

@@ -14,7 +14,7 @@ const WatchHistory=()=>{
     const router= useRouter();
     useEffect(()=>{
     if(myWatchHistory)
-     setIsNoVideos(myWatchHistory.data?.length===0); 
+     setIsNoVideos(myWatchHistory.data?.length===0);
     })
 
     return(

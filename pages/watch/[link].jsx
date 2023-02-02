@@ -11,7 +11,6 @@ import {
   useLikeTheTitleMutation,
   useLikedTitlesQuery,
   useRemoveFromLikedMutation,
-  useUpdateMyWatchHistoryMutation
 } from '../../redux/services/userService';
 import { useState,useEffect,useRef} from 'react';
 import TopNavbar from '../../components/TopNavbar';
@@ -29,7 +28,6 @@ const StreamTitle=()=>{
     const [removeFromLiked] = useRemoveFromLikedMutation();
     const [removeFromWatchList]=useRemoveFromWatchListMutation();
     const [likeTheTitle,{isLoading:isLikeUpdating}]= useLikeTheTitleMutation();
-    const [updateMyWatchHistory]=useUpdateMyWatchHistoryMutation();
     const [isOnWatchList,setIsOnWatchList] = useState();
     const [isAlreadyLiked,setIsAlreadyLiked]=useState();
     
@@ -47,6 +45,7 @@ const StreamTitle=()=>{
         return video.id===router?.query?.link
        }))
     });
+
 
 
     const likeTheCurrentTitle=async(titleName)=>{
@@ -265,7 +264,7 @@ const StreamTitle=()=>{
                             hasArrow
                             >
                             <Button
-                            onClick={()=>router.push(`/play/${video?.id}`)}
+                             onClick={()=>router.push(`/play/${video?.id}`)}
                             >
                               <Icon
                                as={AiFillPlayCircle}
