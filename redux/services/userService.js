@@ -28,31 +28,37 @@ export const userApi = createApi({
     baseQuery: axiosBaseQuery({
         baseUrl: 'http://localhost:3000/api',
     }),
-    tagTypes:['watchHistoryData'],
+    tagTypes:['watchHistoryData,likedTitlesData,watchListData'],
     endpoints:(builder)=>({
         addToWatchList: builder.mutation({
             query: (video) =>
             ({ url: '/add-to-watchlist', method: 'post', data:{addedVideo:video,accessToken:Cookies.getItem('access-token')}}),
+             invalidatesTags:['watchListData']
         }),
         myWatchList: builder.query({
           query: () =>
           ({ url: '/my-watchlist', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+          providesTags:['watchListData']
         }),
         removeFromWatchList: builder.mutation({
           query: (videoId) =>
           ({ url: '/remove-from-watchlist', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+          invalidatesTags:['watchListData']
         }),
         likeTheTitle: builder.mutation({
           query:(video)=>
           ({ url: '/like-the-title', method: 'post', data:{addedVideo:video,accessToken:Cookies.getItem('access-token')}}),
+          invalidatesTags:['likedTitlesData']
         }),
         removeFromLiked: builder.mutation({
           query:(videoId)=>
           ({ url: '/remove-from-liked-titles', method: 'post', data:{videoId:videoId,accessToken:Cookies.getItem('access-token')}}),
+          invalidatesTags:['likedTitlesData']
         }),
         likedTitles:builder.query({
           query:()=>
           ({ url: '/my-liked-titles', method: 'post', data:{accessToken:Cookies.getItem('access-token')}}),
+          providesTags:['likedTitlesData']
         }),
         myWatchHistory:builder.query({
           query:()=>

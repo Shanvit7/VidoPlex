@@ -21,8 +21,8 @@ const StreamTitle=()=>{
     const toast = useToast();
     const { isOpen,onClose,onOpen } = useDisclosure();
     const btnRef = useRef();
-    const {data:watchlist={},refetch:refetchWatchlist} = useMyWatchListQuery();
-    const {data:likedTitles={},refetch:refetchLikedTitles}= useLikedTitlesQuery();
+    const {data:watchlist={}} = useMyWatchListQuery();
+    const {data:likedTitles={}}= useLikedTitlesQuery();
     const {data:video,error,isLoading} = useGetVideoQuery(router.query.link);
     const [addToWatchlist,{ isLoading: isWatchlistUpdating }] = useAddToWatchListMutation();
     const [removeFromLiked] = useRemoveFromLikedMutation();
@@ -37,13 +37,12 @@ const StreamTitle=()=>{
        setIsOnWatchList(watchlist.data?.some((video)=>{
         return video.id===router?.query?.link
        }))
-    });
 
-    useEffect(()=>{
-      if(likedTitles)
-      setIsAlreadyLiked(likedTitles.data?.some((video)=>{
-        return video.id===router?.query?.link
-       }))
+       if(likedTitles)
+       setIsAlreadyLiked(likedTitles.data?.some((video)=>{
+         return video.id===router?.query?.link
+        }))
+
     });
 
 
@@ -60,7 +59,6 @@ const StreamTitle=()=>{
                duration: 1500,
                isClosable: true,
              })
-            refetchLikedTitles();
        } else{
            toast({
                title: 'Something went wrong',
@@ -97,7 +95,6 @@ const StreamTitle=()=>{
                duration: 1500,
                isClosable: true,
              })
-            refetchLikedTitles();
        } else{
            toast({
                title: 'Something went wrong',
@@ -135,7 +132,6 @@ const StreamTitle=()=>{
                 duration: 1500,
                 isClosable: true,
               })
-          refetchWatchlist();
         } else{
             toast({
                 title: 'Something went wrong',
@@ -171,7 +167,6 @@ const StreamTitle=()=>{
                 duration: 1500,
                 isClosable: true,
               })
-          refetchWatchlist();
         } else{
             toast({
                 title: 'Something went wrong',
