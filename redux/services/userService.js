@@ -26,7 +26,7 @@ const axiosBaseQuery =
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: axiosBaseQuery({
-        baseUrl: 'http://localhost:3000/api',
+        baseUrl: '/api',
     }),
     tagTypes:['watchHistoryData,likedTitlesData,watchListData'],
     endpoints:(builder)=>({
