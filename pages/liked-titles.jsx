@@ -51,8 +51,8 @@ const LikedTitles=()=>{
            <SideNavbar passRef={btnRef} isOpenSidebar={isOpen} closeSidebar={onClose}/>
             <Text 
              textAlign={'center'}
-             fontSize={'5xl'}
-              marginTop='1%'
+             fontSize={['3xl','4xl','5xl']}
+             marginTop='1%'
             >
              {isNoVideos ? `No videos found. Add your favorite one's ` :'My Liked Titles'}
             </Text>
@@ -78,6 +78,7 @@ const LikedTitles=()=>{
               <Box
                w={[null,'25','25','25','30']}
                h={[null,'70','60','60','60']}
+               m={['0',null,null,'2']}
               >
                  <Card
                   cursor={'pointer'}

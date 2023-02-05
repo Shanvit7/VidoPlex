@@ -35,12 +35,17 @@ const VideoDrawer=({contentTitle,videos})=>{
       {contentTitle}
     </Text>
 
-    <SimpleGrid templateColumns={`repeat(4, 1fr)`} spacing={15} m='1%' >
+    <SimpleGrid 
+       templateColumns={`repeat(4, 1fr)`} 
+       spacing={15} 
+       m='1%' 
+       >
       {
        videos?.slice(0,lastIndex).map((video,key)=>(
            <Box
            w={[null,'25','25','25','30']}
            h={[null,'70','60','60','60']}
+           m={['0',null,null,'2']}
            >
               <Card
                cursor={'pointer'}

@@ -34,7 +34,7 @@ const LogoutDialogBox=({isOpenLogOutDialogBox,closeLogOutDialogBox})=>{
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              You can always login later with valid credentails
+              You can always login later with valid  credentials
             </AlertDialogBody>
 
             <AlertDialogFooter>

@@ -7,7 +7,7 @@ import { useUpdateMyWatchHistoryMutation } from '../redux/services/userService';
 const CustomPlayer=({video})=>{
     const playerRef = useRef(null);
     const currentTimeRef = useRef();
-    const {data:myWatchHistory={},refetch:refetchMyWatchHistory} = useMyWatchHistoryQuery();
+    const {data:myWatchHistory={}} = useMyWatchHistoryQuery();
     const [updateMyWatchHistory]=useUpdateMyWatchHistoryMutation();
     const [currentTime, setCurrentTime] = useState(0);
 
@@ -42,10 +42,11 @@ const CustomPlayer=({video})=>{
          ref={playerRef}
          currentTime={currentTime} 
          onVmCurrentTimeChange={onTimeUpdate}
+         mediaTitle={video?.title}
         >
             <Video 
              poster={video?.thumbnail2?.url}
-             title={video?.title}
+             mediaTitle={video?.title}
             >
             <source
              data-src={video?.mp4?.url}

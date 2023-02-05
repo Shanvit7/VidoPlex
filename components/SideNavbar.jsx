@@ -53,7 +53,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
               <Button
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
-                w='40%'
+               w={['80%','40%']}
                leftIcon={<ImHome color='white' size={'1rem'}/>}
                onClick={()=>router.push('/home')}
               >
@@ -70,7 +70,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
               <Button
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
-               w='40%'
+               w={['80%','40%']}
                leftIcon={<FaVoteYea color='white' size={'1rem'}/>}
                onClick={()=>router.push('/watchlist')}
               >
@@ -87,7 +87,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
               <Button
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
-               w='40%'
+               w={['80%','40%']}
                leftIcon={<FaThumbsUp color='white' size={'1rem'}/>}
                onClick={()=>router.push('/liked-titles')}
               >
@@ -104,7 +104,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
               <Button
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
-               w='40%'
+               w={['80%','40%']}
                leftIcon={<ImHistory color='white' size={'1rem'}/>}
                onClick={()=>router.push('/watch-history')}
               >
@@ -125,7 +125,7 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
               <Button
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
-               w='40%'
+               w={['80%','40%']}
                leftIcon={<ImExit color='white' size={'1rem'}/>}
                onClick={onOpen}
               >
