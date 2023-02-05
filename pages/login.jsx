@@ -5,7 +5,6 @@ import {
   Button,
   useToast,
   Flex,
-  Box ,
   FormLabel,
   Text,
   Tooltip,
@@ -14,17 +13,21 @@ import {MdTheaters} from 'react-icons/md';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookies';
+import { useState } from 'react';
 
 
 const Login=()=>{
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const toast = useToast();
-    const [loginUser,{ isLoading: isUpdating }] = useLoginUserMutation();
+    const [isUpdating,setIsUpdating]=useState(false);
+    const [loginUser] = useLoginUserMutation();
 
   const onSubmit=data=>{
+    setIsUpdating(true);
      const {email,password}=data;
      if(password?.length<8){
+      setIsUpdating(false);
       toast({
         title: 'Password is less than 8 characters',
         position:'top-right',
@@ -39,7 +42,7 @@ const Login=()=>{
       if(data?.result==='success'){
           Cookies.setItem('access-token',data?.token);
           toast({
-           title: 'Sign In Successful',
+           title: 'Sign In Successful.Redirecting in few seconds',
            position:'top',
            status: 'success',
            duration: 2000,
@@ -47,6 +50,7 @@ const Login=()=>{
         })
         router.push('/home');
       } else {
+        setIsUpdating(false);
         toast({
           title: 'Something went wrong',
           description:'Please try again later...',
@@ -58,6 +62,7 @@ const Login=()=>{
       }
      })
      .catch((err) => {
+      setIsUpdating(false);
       toast({
         title: 'Sign In Failed',
         description:err.message,
@@ -76,26 +81,27 @@ const Login=()=>{
       <div className={styles.page}>
        <Flex flexDirection={'row'} >
 
-        <Box width={'50vw'} height={'100vh'} display={'flex'} justifyContent={'center'}>
+        <Flex width={'50vw'} height={'100vh'} display={['none','none','none','flex']} justifyContent={'center'}>
           <img src='/login.svg' />
-        </Box>
+        </Flex>
 
-         <Box
+         <Flex
           backgroundColor={'black'}
-          width={'50vw'}
-          display={'flex'}
+          width={['100vw','100vw','100vw','50vw']}
           justifyContent={'center'}
          >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Flex
              flexDirection={'column'}
              alignItems='center'
+             height={['100vh',null,null,null]}
+             justifyContent={['space-around',null,null,null]}
             >
             <Text
             textAlign={'center'}
             color={'#a742f5'}
             m='4%'
-            fontSize={'7xl'}
+            fontSize={['4xl','5xl','6xl','7xl']}
             >
               Sign In
             </Text>
@@ -114,7 +120,7 @@ const Login=()=>{
             <Input 
              {...register("email",{required:true})} 
              type={'email'}
-             width={'40vw'}
+             width={['80vw',null,null,'40vw']}
              color={'#a742f5'}
              focusBorderColor="#a742f5"
              variant={'flushed'}
@@ -135,7 +141,7 @@ const Login=()=>{
             <Input 
              {...register("password",{required:true})} 
              type={'password'}
-             width={'40vw'}
+             width={['80vw',null,null,'40vw']}
              color={'#a742f5'}
              focusBorderColor="#a742f5"
              variant={'flushed'}
@@ -143,6 +149,13 @@ const Login=()=>{
              />
              </Flex>
 
+             
+             <Flex
+             flexDirection="column"
+             alignItems={'center'}
+             justifyContent='space-around'
+             height={'15vh'}
+             >
              <Tooltip
              label={isUpdating ? 'Signing In': 'Sign In'}
              hasArrow
@@ -154,13 +167,25 @@ const Login=()=>{
              type={'submit'}
              isLoading={isUpdating}
              >
-               Let's Stream
+               Continue
              </Button>
              </Tooltip>
 
+           
+            <Text>
+              OR
+           </Text>
+         
+
+           <Text as='u' cursor={'pointer'} onClick={()=>router.push('/register')}>
+            Create an account
+          </Text>
+          </Flex>
+
+
               </Flex>
           </form>
-         </Box>
+         </Flex>
        </Flex>
       </div>
     )

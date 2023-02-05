@@ -5,7 +5,6 @@ import {
     Button,
     useToast,
     Flex,
-    Box ,
     FormLabel,
     Text,
     Tooltip,
@@ -82,28 +81,28 @@ const Register=()=>{
 
 return(
    <div className={styles.page}>
-        <Flex flexDirection={'row'} >
-
-    <Box width={'50vw'} height={'100vh'} display={'flex'} justifyContent={'center'}>
+  <Flex flexDirection={'row'} >
+    <Flex width={'50vw'} height={'100vh'} display={['none','none','none','flex']} justifyContent={'center'}>
      <img src='/register.svg' />
-   </Box>
+   </Flex>
 
-   <Box
+   <Flex
      backgroundColor={'black'}
-     width={'50vw'}
-     display={'flex'}
+     width={['100vw','100vw','100vw','50vw']}
      justifyContent={'center'}
     >
    <form onSubmit={handleSubmit(onSubmit)}>
     <Flex
      flexDirection={'column'}
      alignItems='center'
+     height={['100vh',null,null,null]}
+     justifyContent={['space-around',null,null,null]}
     >
     <Text
     textAlign={'center'}
     color={'#a742f5'}
     m='4%'
-    fontSize={'7xl'}
+    fontSize={['4xl','5xl','6xl','7xl']}
     >
       Sign Up
     </Text>
@@ -122,7 +121,7 @@ return(
     <Input 
      {...register("email",{required:true})} 
      type={'email'}
-     width={'40vw'}
+     width={['80vw',null,null,'40vw']}
      color={'#a742f5'}
      focusBorderColor="#a742f5"
      variant={'flushed'}
@@ -143,7 +142,7 @@ return(
     <Input 
      {...register("password",{required:true})} 
      type={'password'}
-     width={'40vw'}
+     width={['80vw',null,null,'40vw']}
      color={'#a742f5'}
      focusBorderColor="#a742f5"
      variant={'flushed'}
@@ -164,7 +163,7 @@ return(
     <Input 
      {...register("confirmPassword",{required:true})} 
      type={'password'}
-     width={'40vw'}
+     width={['80vw',null,null,'40vw']}
      color={'#a742f5'}
      focusBorderColor="#a742f5"
      variant={'flushed'}
@@ -172,6 +171,12 @@ return(
      />
      </Flex>
 
+     <Flex
+     flexDirection="column"
+     alignItems={'center'}
+     justifyContent='space-around'
+     height={'15vh'}
+     >
      <Tooltip
      label={isUpdating ? 'Creating account..': 'Sign Up'}
      hasArrow
@@ -187,9 +192,20 @@ return(
      </Button>
      </Tooltip>
 
+     <Text>
+       OR
+     </Text>
+
+     <Text as='u' cursor={'pointer'} onClick={()=>router.push('/login')}>
+      Already have an account
+     </Text>
+
+     </Flex>
+
+
       </Flex>
   </form>
- </Box>
+ </Flex>
 </Flex>
       </div>
     )
