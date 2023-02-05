@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookies';
 import { useState } from 'react';
+import { Image } from '@chakra-ui/react';
 
 
 const Login=()=>{
@@ -82,7 +83,7 @@ const Login=()=>{
        <Flex flexDirection={'row'} >
 
         <Flex width={'50vw'} height={'100vh'} display={['none','none','none','flex']} justifyContent={'center'}>
-          <img src='/login.svg' />
+          <Image src='/login.svg' alt='image' />
         </Flex>
 
          <Flex

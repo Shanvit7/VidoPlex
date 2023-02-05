@@ -3,7 +3,7 @@ import TopNavbar from '../components/TopNavbar';
 import SideNavbar from '../components/SideNavbar';
 import {useRef} from 'react';
 import {
-    useDisclosure,Text
+    useDisclosure,Text,
 } from '@chakra-ui/react';
 import {GraphQLClient,gql} from 'graphql-request';
 import VideoDrawer from '../components/VideoDrawer';

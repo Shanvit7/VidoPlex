@@ -1,4 +1,4 @@
-import { Flex,Text,Tooltip,Button } from "@chakra-ui/react";
+import { Flex,Text,Tooltip,Button, Image } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {TfiVideoClapper} from 'react-icons/tfi';
 
@@ -21,7 +21,7 @@ const LandingPage=()=>{
       </Text>
 
       <Flex width={'100vw'} height={['60%']} justifyContent={'center'}>
-          <img src='/landing.svg' />
+          <Image src='/landing.svg' alt='image' />
       </Flex>
 
       <Flex
@@ -38,7 +38,7 @@ const LandingPage=()=>{
          onClick={()=>router.push('/register')}
          leftIcon={<TfiVideoClapper/>}
       >
-         Let's Stream
+         Let&apos;s Stream
       </Button>
       </Tooltip>
       </Flex>

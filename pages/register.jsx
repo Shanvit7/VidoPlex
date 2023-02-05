@@ -12,6 +12,7 @@ import {
 import { useForm } from "react-hook-form";
 import {useRouter} from 'next/router';
 import {BsPersonBadge} from 'react-icons/bs';
+import { Image } from '@chakra-ui/react';
 
 
 
@@ -83,7 +84,7 @@ return(
    <div className={styles.page}>
   <Flex flexDirection={'row'} >
     <Flex width={'50vw'} height={'100vh'} display={['none','none','none','flex']} justifyContent={'center'}>
-     <img src='/register.svg' />
+     <Image src='/register.svg' alt='image' />
    </Flex>
 
    <Flex

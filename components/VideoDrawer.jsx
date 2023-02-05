@@ -46,15 +46,18 @@ const VideoDrawer=({contentTitle,videos})=>{
            w={[null,'25','25','25','30']}
            h={[null,'70','60','60','60']}
            m={['0',null,null,'2']}
+           key={key}
            >
               <Card
                cursor={'pointer'}
+               key={key}
               >
                 <Image 
                  src={video?.thumbnail.url}
                  alt={'video'}
                  onClick={()=>{
                  router.push(`/watch/${video.id}`)
+                 key={key}
               }}
                 />
               </Card>

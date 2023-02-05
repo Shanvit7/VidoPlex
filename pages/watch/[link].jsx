@@ -1,5 +1,5 @@
 import styles from '../stylesheets/layout.module.css';
-import { Flex,Box,Button, Icon,Text,Spinner,useToast,Tooltip, useDisclosure} from '@chakra-ui/react';
+import { Flex,Box,Button, Icon,Text,Spinner,useToast,Tooltip, useDisclosure,Image} from '@chakra-ui/react';
 import {FaTv,FaBan}  from 'react-icons/fa';
 import {AiFillLike,AiFillPlayCircle,AiOutlineLike} from 'react-icons/ai';
 import { useRouter } from 'next/router';
@@ -211,7 +211,7 @@ const StreamTitle=()=>{
             display={'flex'}
             justifyContent={'center'}
             >
-             <img src='/error.svg' />
+             <Image src='/error.svg' alt='image' />
             </Box>
             </>
             )

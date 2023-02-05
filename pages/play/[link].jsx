@@ -5,7 +5,7 @@ const CustomPlayer = dynamic(() => import('../../components/CustomPlayer'), {
     ssr:false,
 })
 import styles from '../stylesheets/layout.module.css';
-import { Spinner,Box,Text } from '@chakra-ui/react';
+import { Spinner,Box,Text,Image } from '@chakra-ui/react';
 
 const StreamPlayer=()=>{
     const router = useRouter();
@@ -32,7 +32,7 @@ const StreamPlayer=()=>{
             display={'flex'}
             justifyContent={'center'}
             >
-             <img src='/error.svg' />
+             <Image src='/error.svg' alt='image' />
             </Box>
             </>
             )
