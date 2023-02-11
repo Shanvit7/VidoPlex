@@ -142,9 +142,13 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
 
             </DrawerBody>
 
+            <Center>
             <DrawerFooter>
-                
+              <Text color={'white'}>
+                  Version : {process.env.NEXT_PUBLIC_APP_VERSION}
+                </Text>
             </DrawerFooter>
+            </Center>
         </DrawerContent>
 
       </Drawer>
