@@ -9,17 +9,14 @@ import {
     Text,
     Center,
     Button,
-    useDisclosure,
 } from '@chakra-ui/react';
-import {ImHome,ImExit,ImHistory} from 'react-icons/im';
+import {ImHome,ImHistory,ImUser} from 'react-icons/im';
 import {FaVoteYea,FaThumbsUp} from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import LogoutDialogBox from './LogoutDialogBox';
 
 
 const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
     return(
       <Drawer
@@ -29,10 +26,6 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
          finalFocusRef={passRef}
          size={'lg'}
        >
-        <LogoutDialogBox 
-         isOpenLogOutDialogBox={isOpen}
-         closeLogOutDialogBox={onClose}
-        />
          <DrawerOverlay/>
         <DrawerContent  style={{backgroundColor:'#a742f5'}}>
         <DrawerCloseButton color={'white'}/>
@@ -118,27 +111,22 @@ const SideNavbar=({passRef,closeSidebar,isOpenSidebar})=>{
               </Center>
 
 
-              <Center 
-               marginTop='8%'
-               color='white'
-               >
+              <Center  marginTop='8%'>
               <Button
                bg={'transparent'}
                _hover={{ bg: 'rgba(0,0,0,0.5)'}}
                w={['80%','40%']}
-               leftIcon={<ImExit color='white' size={'1rem'}/>}
-               onClick={onOpen}
+               leftIcon={<ImUser color='white' size={'1rem'}/>}
+               onClick={()=>router.push('/account')}
               >
               <Text 
-              fontSize={'2xl'}
-              color='white'
-              >
-                  Logout
+               fontSize={'2xl'}
+               color='white'
+               >
+                  My Account
                 </Text>
               </Button>
               </Center>
-          
-         
 
             </DrawerBody>
 

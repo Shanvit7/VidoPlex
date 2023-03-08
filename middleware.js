@@ -19,6 +19,6 @@ export const middleware = async (req) => {
 };
   
 export const config = {
-    matcher:["/home",'/watch','/play','/liked-titles','/watch-history','/watchlist']
+    matcher:["/home",'/watch','/play','/liked-titles','/watch-history','/watchlist','/account']
 };
 
